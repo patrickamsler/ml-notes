@@ -107,6 +107,7 @@ $$
 $$
 
 Let **$\vec{w}$** and **$\vec{x}$** be two vectors with 4 entries:
+
 $$
 \vec{w} = [w_1, w_2, w_3, w_4] = [2, -1, 0.5, 3]
 $$
