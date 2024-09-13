@@ -28,6 +28,7 @@ $$
 - **$w$**: The weight or slope of the line, which shows how much $y$ changes for a unit change in $x$.
 - **$b$**: The bias or intercept, representing the value of $y$ when $x = 0$
 - **$\hat{y}$**: The predicted output or dependent variable.
+- **$x$**: The input or independent variable.
 
 ### Cost Function (Squared Error):
 The cost function $J(w, b)$ measures the average squared difference between the predicted values $\hat{y}$ and the actual values $y$. It is defined as:
@@ -77,8 +78,39 @@ Learning Rate
 - If the learning rate is too small, it will take longer to converge.
 - If the learning rate is too large, it may overshoot the minimum and fail to converge.
 - The squared error function is convex (only one minimum), so gradient descent will always converge to the global minimum.
-- Other cost functions may have multiple local minima. It is not guaranteed that gradient descent will converge to the global minimum. So multiple starting points are used.
+- Other cost functions may have multiple local minima. It is not guaranteed that gradient descent will converge to the global minimum. So multiple starting points are used to find the best minimum.
 
 Batch Gradient Descent:
 - In batch gradient descent, the parameters are updated after computing the gradient of the cost function for the entire training set.
 - Other methods use a subset of the training set to compute the gradient. These methods are called stochastic gradient descent and mini-batch gradient descent.
+
+### Multiple Linear Regression
+
+The model predicts the output based on multiple input features $x_1, x_2, …, x_n$. The parameters $w_1, w_2, …, w_n$ represent the weights for each feature, and $b$ is the bias term.
+
+$$
+\hat{y} = f_{wb}(\vec{x}) = \vec{w} \cdot \vec{x}  = w_1x_1 + w_2x_2 + \dots + w_nx_n + b
+$$
+
+- n: the number of input features.
+- $w_1, w_2, …, w_n$: The weights corresponding to each input feature, showing the contribution of each feature to the prediction.
+- $b$: The bias or intercept term.
+- $\hat{y}$: The predicted output based on all input features $x_1, x_2, …, x_n$.
+
+#### Dot Product
+Weights and features are calculated using the dot product. For two vectors with the same dimension **$\vec{w}$** and **$\vec{x}$**, each with $n$ entries, the dot product is calculated as:
+
+$$
+\vec{w} \cdot \vec{x} = w_1x_1 + w_2x_2 + \dots + w_nx_n
+$$
+
+Let **$\vec{w}$** and **$\vec{x}$** be two vectors with 4 entries:
+$$
+\vec{w} = [w_1, w_2, w_3, w_4] = [2, -1, 0.5, 3]
+$$
+$$
+\vec{x} = [x_1, x_2, x_3, x_4] = [1, 0.5, -2, 4]
+$$
+$$
+\vec{w} \cdot \vec{x} = (2)(1) + (-1)(0.5) + (0.5)(-2) + (3)(4) = 12.5
+$$
