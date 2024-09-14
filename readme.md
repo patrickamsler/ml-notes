@@ -12,6 +12,9 @@
     - [Multiple Linear Regression](#multiple-linear-regression)
       - [Dot Product](#dot-product)
       - [Vectorization](#vectorization)
+      - [Cost Function for Multiple Linear Regression](#cost-function-for-multiple-linear-regression)
+      - [Gradient Descent for Multiple Linear Regression](#gradient-descent-for-multiple-linear-regression)
+    - [Normal Equation](#normal-equation)
 
 
 ## Overview
@@ -105,7 +108,7 @@ Batch Gradient Descent:
 The model predicts the output based on multiple input features $x_1, x_2, …, x_n$. The parameters $w_1, w_2, …, w_n$ represent the weights for each feature, and $b$ is the bias term.
 
 $$
-\hat{y} = f_{wb}(\vec{x}) = \vec{w} \cdot \vec{x}  = w_1x_1 + w_2x_2 + \dots + w_nx_n + b
+\hat{y} = f_{wb}(\vec{x}) = \vec{w} \cdot \vec{x} + b = w_1x_1 + w_2x_2 + \dots + w_nx_n + b
 $$
 
 - n: the number of input features.
@@ -146,3 +149,83 @@ x = np.array([1, 0.5, -2, 4])
 # Compute the dot product
 dot_product = np.dot(w, x)
 ```
+
+#### Cost Function for Multiple Linear Regression
+
+The cost function for multiple linear regression is the same as for simple linear regression, but the model predicts the output based on multiple input features.
+
+$$
+J(\vec{w}, b) = \frac{1}{2m} \sum_{i=1}^{m} \left( \hat{y}^{(i)} - y^{(i)} \right)^2
+$$
+
+Vectorized Form:
+
+$$
+J(\vec{w}, b) = \frac{1}{2m} \left( \vec{X} \vec{w} + b - \vec{y} \right)^T \left( \vec{X} \vec{w} + b - \vec{y} \right)
+$$
+
+- $\vec{X}$ is the matrix of input features.
+- $\vec{w}$ is the vector of weights.
+- $\vec{y}$ is the vector of actual outputs.
+
+#### Gradient Descent for Multiple Linear Regression
+
+
+$$
+\vec{w} := \vec{w} - \alpha \frac{\partial}{\partial \vec{w}} J(\vec{w}, b)
+$$
+
+$$
+b := b - \alpha \frac{\partial}{\partial b} J(\vec{w}, b)
+$$
+
+Partial Derivative with Respect to $\vec{w}$:
+
+$$
+\frac{\partial}{\partial w_1} J(\vec{w}, b) = \frac{1}{m} \sum_{i=1}^{m} \left( \hat{y}^{(i)} - y^{(i)} \right) x_1^{(i)}
+$$
+
+$$
+\frac{\partial}{\partial w_2} J(\vec{w}, b) = \frac{1}{m} \sum_{i=1}^{m} \left( \hat{y}^{(i)} - y^{(i)} \right) x_2^{(i)}
+$$
+
+...
+
+$$
+\frac{\partial}{\partial w_n} J(\vec{w}, b) = \frac{1}{m} \sum_{i=1}^{m} \left( \hat{y}^{(i)} - y^{(i)} \right) x_n^{(i)}
+$$
+
+Can be written in vectorized form:
+
+$$
+\frac{\partial}{\partial \vec{w}} J(\vec{w}, b) = \frac{1}{m} \vec{X}^T (\vec{X} \vec{w} + b - \vec{y})
+$$
+
+Partial Derivative with Respect to b:
+
+$$
+\frac{\partial}{\partial b} J(\vec{w}, b) = \frac{1}{m} \sum_{i=1}^{m} \left( \hat{y}^{(i)} - y^{(i)} \right)
+$$
+
+### Normal Equation
+
+- The normal equation is an analytical solution to linear regression that minimizes the cost function $J(w, b)$. Without the need for iterative optimization algorithms like gradient descent.
+- Only works for linear regression and not for other models.
+- Solve for w and b by setting the partial derivatives of the cost function to zero.
+- May be used by some libraries
+- Computationally expensive for large datasets
+
+Formula:
+
+$$
+\vec{w} = (\vec{X}^T \vec{X})^{-1} \vec{X}^T \vec{y}
+$$
+
+$$
+b = \frac{1}{m} \sum_{i=1}^{m} \left( y^{(i)} - \vec{w} \cdot \vec{x}^{(i)} \right)
+$$
+
+- $\vec{X}$ is the matrix of input features.
+- $\vec{w}$ is the vector of weights.
+- $\vec{y}$ is the vector of actual outputs.
+- $m$ is the number of training examples.
