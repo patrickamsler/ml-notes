@@ -1,5 +1,18 @@
 # Machine Learning
 
+- [Machine Learning](#machine-learning)
+  - [Overview](#overview)
+    - [Supervised Learning](#supervised-learning)
+    - [Unsupervised Learning](#unsupervised-learning)
+    - [Other Methods](#other-methods)
+  - [Linear Regression](#linear-regression)
+    - [Model](#model)
+    - [Cost Function (Squared Error):](#cost-function-squared-error)
+    - [Gradient Descent](#gradient-descent)
+    - [Multiple Linear Regression](#multiple-linear-regression)
+      - [Dot Product](#dot-product)
+
+
 ## Overview
 
 ### Supervised Learning
@@ -97,7 +110,7 @@ $$
 - n: the number of input features.
 - $w_1, w_2, …, w_n$: The weights corresponding to each input feature, showing the contribution of each feature to the prediction.
 - $b$: The bias or intercept term.
-- $\hat{y}$: The predicted output based on all input features $x_1, x_2, …, x_n$.
+- $\hat{y}$: The predicted output based on all input features (independent variables) $x_1, x_2, …, x_n$.
 
 #### Dot Product
 Weights and features are calculated using the dot product. For two vectors with the same dimension **$\vec{w}$** and **$\vec{x}$**, each with $n$ entries, the dot product is calculated as:
