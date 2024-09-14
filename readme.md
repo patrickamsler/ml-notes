@@ -11,6 +11,7 @@
     - [Gradient Descent](#gradient-descent)
     - [Multiple Linear Regression](#multiple-linear-regression)
       - [Dot Product](#dot-product)
+      - [Vectorization](#vectorization)
 
 
 ## Overview
@@ -132,3 +133,16 @@ $$
 $$
 \vec{w} \cdot \vec{x} = (2)(1) + (-1)(0.5) + (0.5)(-2) + (3)(4) = 12.5
 $$
+
+#### Vectorization
+
+Vectorization allows for efficient computation by applying operations to entire arrays. The dot product can be build by CPU and GPU that run in parallel.
+
+```python
+# Define the vectors
+w = np.array([2, -1, 0.5, 3])
+x = np.array([1, 0.5, -2, 4])
+
+# Compute the dot product
+dot_product = np.dot(w, x)
+```
