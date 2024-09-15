@@ -109,6 +109,14 @@ Learning Rate
 Batch Gradient Descent:
 - In batch gradient descent, the parameters are updated after computing the gradient of the cost function for the entire training set.
 - Other methods use a subset of the training set to compute the gradient. These methods are called stochastic gradient descent and mini-batch gradient descent.
+  
+A learning curve can be used to check if gradient descent is working correctly. The cost function should decrease with each iteration and never increase. 
+
+![alt text](images/cost_vs_itr_2.png)
+
+If it increases, the learning rate may be too large.
+
+![alt text](images/cost_vs_itr_1.png)
 
 ### Multiple Linear Regression
 
@@ -264,3 +272,5 @@ $$
 
 - $\mu$ is the mean of the feature.
 - $\sigma$ is the standard deviation of the feature.
+
+![alt text](images/z_score_narmalization.png)
