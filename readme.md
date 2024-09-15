@@ -10,7 +10,6 @@
     - [Cost Function (Squared Error):](#cost-function-squared-error)
     - [Gradient Descent](#gradient-descent)
     - [Multiple Linear Regression](#multiple-linear-regression)
-      - [Dot Product](#dot-product)
       - [Vectorization](#vectorization)
       - [Cost Function for Multiple Linear Regression](#cost-function-for-multiple-linear-regression)
       - [Gradient Descent for Multiple Linear Regression](#gradient-descent-for-multiple-linear-regression)
@@ -123,26 +122,7 @@ $$
 - $b$: The bias or intercept term.
 - $\hat{y}$: The predicted output based on all input features (independent variables) $x_1, x_2, …, x_n$.
 
-#### Dot Product
-Weights and features are calculated using the dot product. For two vectors with the same dimension **$\vec{w}$** and **$\vec{x}$**, each with $n$ entries, the dot product is calculated as:
-
-$$
-\vec{w} \cdot \vec{x} = w_1x_1 + w_2x_2 + \dots + w_nx_n
-$$
-
-Let **$\vec{w}$** and **$\vec{x}$** be two vectors with 4 entries:
-
-$$
-\vec{w} = [w_1, w_2, w_3, w_4] = [2, -1, 0.5, 3]
-$$
-
-$$
-\vec{x} = [x_1, x_2, x_3, x_4] = [1, 0.5, -2, 4]
-$$
-
-$$
-\vec{w} \cdot \vec{x} = (2)(1) + (-1)(0.5) + (0.5)(-2) + (3)(4) = 12.5
-$$
+Weights and features are calculated using the [Dot Product](linear-algebra.md#dot-product)
 
 #### Vectorization
 
