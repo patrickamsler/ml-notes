@@ -299,7 +299,7 @@ $$
 x_3 = x_1 \times x_2
 $$
 
-new model:
+model with new feature:
 
 $$
 f_{wb}(\vec{x}) = w_1x_1 + w_2x_2 + w_3x_3 + b
@@ -310,15 +310,15 @@ $$
 Polynomial regression is a form of linear regression in which the relationship between the independent variable $x$ and the dependent variable $y$ is modeled as an $n$-th degree polynomial.
 
 $$
-f_{wb}(x) = w_0 + w_1x + w_2x^2 + \dots + w_nx^n
+f_{wb}(\vec{x}) = w_1x + w_2x^2 + \dots + w_nx^n + b  
 $$
 
-It's important to scale the features (including the polynomial terms like $x^2, x^3$ to the same scale.
+It's important to scale the features. The polynomial terms $x^2, x^3$, which are also new features, need to be in the same range as $x$. Otherwise, the features with higher power e.g. $x^3$ will dominate the cost function.
 
 It's also possible to use a model with a root of x or a logarithm of x.
 
 $$
-f_{wb}(x) = w_0 + w_1x + w_2\sqrt{x}
+f_{wb}(\vec{x}) = w_0 + w_1x + w_2\sqrt{x}
 $$
 
 This function will be steep at the beginning and then flatten out.
