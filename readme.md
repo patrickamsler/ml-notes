@@ -17,6 +17,8 @@
     - [Feature Scaling](#feature-scaling)
       - [Mean Normalization](#mean-normalization)
       - [Z-Score Normalization](#z-score-normalization)
+    - [Feature Engineering](#feature-engineering)
+    - [Polynomial Regression](#polynomial-regression)
 
 
 ## Overview
@@ -277,4 +279,45 @@ $$
 - $\mu$ is the mean of the feature.
 - $\sigma$ is the standard deviation of the feature.
 
+age vs size of house before and after normalization:
+
 ![alt text](images/z_score_narmalization.png)
+
+### Feature Engineering
+
+Feature engineering is the process of creating new features from existing features. It involves combining and transforming features to make them more informative.
+
+$$
+f_{wb}(\vec{x}) = w_1x_1 + w_2x_2 + b
+$$
+
+where $x_1$ is the length and $x_2$ is the width of a house. 
+
+A new feature $x_3$ can be created by multiplying the length and width to represent the area of the house.
+
+$$
+x_3 = x_1 \times x_2
+$$
+
+new model:
+$$
+f_{wb}(\vec{x}) = w_1x_1 + w_2x_2 + w_3x_3 + b
+$$
+
+### Polynomial Regression
+
+Polynomial regression is a form of linear regression in which the relationship between the independent variable $x$ and the dependent variable $y$ is modeled as an $n$-th degree polynomial.
+
+$$
+f_{wb}(x) = w_0 + w_1x + w_2x^2 + \dots + w_nx^n
+$$
+
+It's important to scale the features (including the polynomial terms like $x^2, x^3$ to the same scale.
+
+It's also possible to use a model with a root of x or a logarithm of x.
+
+$$
+f_{wb}(x) = w_0 + w_1x + w_2\sqrt{x}
+$$
+
+This function will be steep at the beginning and then flatten out.
