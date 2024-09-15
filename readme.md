@@ -135,6 +135,10 @@ $$
 
 Weights and features are calculated using the [Dot Product](linear-algebra.md#dot-product)
 
+Housing price prediction with multiple features:
+
+![alt text](images/housingprice_multiple_features.png)
+
 #### Vectorization
 
 Vectorization allows for efficient computation by applying operations to entire arrays. The dot product can be build by CPU and GPU that run in parallel.
