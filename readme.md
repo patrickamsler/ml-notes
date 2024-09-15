@@ -14,6 +14,9 @@
       - [Cost Function for Multiple Linear Regression](#cost-function-for-multiple-linear-regression)
       - [Gradient Descent for Multiple Linear Regression](#gradient-descent-for-multiple-linear-regression)
     - [Normal Equation](#normal-equation)
+    - [Feature Scaling](#feature-scaling)
+      - [Mean Normalization](#mean-normalization)
+      - [Z-Score Normalization](#z-score-normalization)
 
 
 ## Overview
@@ -216,3 +219,48 @@ $$
 - $\vec{w}$ is the vector of weights.
 - $\vec{y}$ is the vector of actual outputs.
 - $m$ is the number of training examples.
+
+### Feature Scaling
+
+Feature scaling is a preprocessing step that standardizes the range of independent variables. It is important for algorithms that use gradient descent, where the step size needs to be of similar size for all features in order to converge faster.
+
+Aim for a scale where all the features are in range like -1 to 1 or -0.5 to 0.5.
+
+#### Mean Normalization
+
+$$
+x_i = \frac{x_i - \mu}{\text{max}(x) - \text{min}(x)}
+$$
+
+Example:
+
+Feature $x_1$ No. Bedrooms (0-5) with mean 2.3 and Area $x_2$ (300-2000) with mean 600 have different ranges.
+
+The normalized value of Bedrooms will be in the range:
+
+$$
+\text{Bedrooms} = \frac{\text{Bedrooms} - 2.3}{5-0}
+$$
+
+$$
+-0.46 \leq x_1 \leq 0.54
+$$
+
+The normalized value of Area will be in the range:
+
+$$
+\text{Area} = \frac{\text{Area} - 1150}{2000-300}
+$$
+
+$$
+-0.18 \leq x_2 \leq 0.82
+$$
+
+#### Z-Score Normalization
+
+$$
+x_i = \frac{x_i - \mu}{\sigma}
+$$
+
+- $\mu$ is the mean of the feature.
+- $\sigma$ is the standard deviation of the feature.
