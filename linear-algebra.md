@@ -7,7 +7,7 @@
 
 
 ## Dot Product
-Weights and features are calculated using the dot product. For two vectors with the same dimension **$\vec{w}$** and **$\vec{x}$**, each with $n$ entries, the dot product is calculated as:
+For two vectors with the same dimension **$\vec{w}$** and **$\vec{x}$**, each with $n$ entries, the dot product is calculated as:
 
 $$
 \vec{w} \cdot \vec{x} = w_1x_1 + w_2x_2 + \dots + w_nx_n
@@ -28,7 +28,7 @@ $$
 $$
 
 ## Square of a Vector
-the square of the vector, $\vec{v}$,  (often referred to as the squared magnitude or the dot product of the vector with itself)
+the square of the vector, $\vec{v}$,  (squared magnitude or the dot product of the vector with itself)
 
 $$
 \vec{v} \cdot \vec{v} = v_1^2 + v_2^2 + \dots + v_n^2
