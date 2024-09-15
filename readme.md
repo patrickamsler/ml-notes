@@ -300,6 +300,7 @@ x_3 = x_1 \times x_2
 $$
 
 new model:
+
 $$
 f_{wb}(\vec{x}) = w_1x_1 + w_2x_2 + w_3x_3 + b
 $$
