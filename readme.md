@@ -64,7 +64,7 @@ $$
 
 ### Gradient Descent
 
-The goal of training a model is to find the parameters $w$ and $b$ that minimize the cost function $J(w, b)$.
+The goal of training a model is to find the parameters $w$ and $b$ that minimize the cost function $J(w, b)$. 
 
 At each iteration, the parameters $w$ and $b$ are updated using the following rules:
 
@@ -80,6 +80,8 @@ $$
 - $\frac{\partial}{\partial w} J(w, b)$ is the partial derivative of the cost function with respect to $w$
 - $\frac{\partial}{\partial b} J(w, b)$ is the partial derivative of the cost function with respect to $b$
 
+The derivative of the cost function gives the direction of the steepest ascent. As closer to the minimum, the gradient becomes smaller, and the steps taken are smaller. At the minimum, the gradient is zero, and the parameters do not change.
+
 Partial Derivative with Respect to $w$:
 
 $$
@@ -91,6 +93,9 @@ Partial Derivative with Respect to $b$:
 $$
 \frac{\partial}{\partial b} J(w, b) = \frac{1}{m} \sum_{i=1}^{m} \left( wx^{(i)} + b - y^{(i)} \right)
 $$
+
+For more details, refer to the [Calculating Partial Derivatives of a Linear Function and the Squared Error Cost Function](./calculus.md#calculating-partial-derivatives-of-a-linear-function-and-the-squared-error-cost-function) section.
+
 
 Learning Rate
 - The learning rate $\alpha$ is a parameter that controls the size of the steps taken during gradient descent. 
