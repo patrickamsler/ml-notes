@@ -1,10 +1,6 @@
 # Machine Learning
 
 - [Machine Learning](#machine-learning)
-  - [Overview](#overview)
-    - [Supervised Learning](#supervised-learning)
-    - [Unsupervised Learning](#unsupervised-learning)
-    - [Other Methods](#other-methods)
   - [Linear Regression](#linear-regression)
     - [Model](#model)
     - [Cost Function (Squared Error):](#cost-function-squared-error)
@@ -19,25 +15,13 @@
       - [Z-Score Normalization](#z-score-normalization)
     - [Feature Engineering](#feature-engineering)
     - [Polynomial Regression](#polynomial-regression)
-
-
-## Overview
-
-### Supervised Learning
-- Learns given the right answers
-- labeled data x -> y
-- regression, classification
-
-### Unsupervised Learning
-- Learns without the right answers
-- Find structure in data
-- clustering, dimensionality reduction, anomaly detection
-
-### Other Methods
- - Reinforcement Learning
- - Recommender Systems
+  - [Classification with Logistic Regression](#classification-with-logistic-regression)
+    - [Sigmoid Function](#sigmoid-function)
+    - [Logistic Regression Model](#logistic-regression-model)
 
 ## Linear Regression
+
+Supervised learning algorithm that learns from labeled data to predict the output for new, unseen data. It models the relationship between the input and output variables as a linear function. 
 
 ### Model
 $w$ and $b$ are the parameters of the model. The model is a linear function of the input $x$.
@@ -322,3 +306,35 @@ f_{wb}(\vec{x}) = w_0 + w_1x + w_2\sqrt{x}
 $$
 
 This function will be steep at the beginning and then flatten out.
+
+## Classification with Logistic Regression
+
+Logistic regression is a supervised learning algorithm used for binary classification. It predicts the probability that an instance belongs to a particular class. The predicted probability is then converted into a binary output.
+
+### Sigmoid Function
+
+<img src="images/sigmoid_function.png" alt="Sigmoid Function" height="300" width="400"/>
+
+$$
+\sigma(z) = \frac{1}{1 + e^{-z}}
+$$
+
+where $z$ is the input to the function, which is typically the output of a linear combination of features and weights:
+
+$$
+z = w_1x_1 + w_2x_2 + \dots + w_nx_n + b
+$$
+
+### Logistic Regression Model
+
+The logistic regression model can be represented as:
+
+$$
+f_{wb}(\vec{x}) = \sigma(\vec{w} \cdot \vec{x} + b) = \frac{1}{1 + e^{-(\vec{w} \cdot \vec{x} + b)}}
+$$
+
+The model predicts the probability that an instance belongs to the positive class. The predicted probability is then converted into a binary output using a threshold value.
+
+$$
+\hat{y} = \begin{cases} 1 & \text{if } P(y=1|\vec{x}) \geq 0.5 \\ 0 & \text{otherwise} \end{cases}
+$$
