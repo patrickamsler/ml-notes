@@ -18,6 +18,7 @@
   - [Classification with Logistic Regression](#classification-with-logistic-regression)
     - [Sigmoid Function](#sigmoid-function)
     - [Logistic Regression Model](#logistic-regression-model)
+    - [Decision Boundary](#decision-boundary)
 
 ## Linear Regression
 
@@ -313,19 +314,20 @@ Logistic regression is a supervised learning algorithm used for binary classific
 
 ### Sigmoid Function
 
-<img src="images/sigmoid_function.png" alt="Sigmoid Function" height="300" width="400"/>
+![alt text](images/sigmoid_function.png)
 
 $$
 \sigma(z) = \frac{1}{1 + e^{-z}}
 $$
 
-where $z$ is the input to the function, which is typically the output of a linear combination of features and weights:
+### Logistic Regression Model
+
+the input $z$ to the sigmoid function is the output of a linear regression model:
 
 $$
 z = w_1x_1 + w_2x_2 + \dots + w_nx_n + b
 $$
 
-### Logistic Regression Model
 
 The logistic regression model can be represented as:
 
@@ -338,3 +340,33 @@ The model predicts the probability that an instance belongs to the positive clas
 $$
 \hat{y} = \begin{cases} 1 & \text{if } P(y=1|\vec{x}) \geq 0.5 \\ 0 & \text{otherwise} \end{cases}
 $$
+
+For a logistic regression model, $z = \vec{w} \cdot \vec{x} + b$.
+
+- if $\vec{w} \cdot \vec{x} + b \geq 0$, the model predicts $y = 1$
+- if $\vec{w} \cdot \vec{x} + b < 0$, the model predicts $y = 0$
+
+
+### Decision Boundary
+
+
+Linear decision boundary:
+
+$$
+w_1x_1 + w_2x_2 + b = 0
+$$
+
+Example:
+
+Given $b = -3$, $w_0 = 1$, and $w_1 = 1$, the model predicts $y = 1$ if $x_1 + x_2 - 3 \geq 0$.
+
+
+![alt text](images/linear_decision_boundary.png)
+
+Non-linear decision boundary:
+
+$$
+w_1x_1^2 + w_2x_2^2 + b = 0
+$$
+
+![alt text](images/non_linear_decision_boundary.png)
