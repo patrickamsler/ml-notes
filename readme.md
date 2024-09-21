@@ -19,6 +19,7 @@
     - [Sigmoid Function](#sigmoid-function)
     - [Logistic Regression Model](#logistic-regression-model)
     - [Decision Boundary](#decision-boundary)
+    - [Cost Function for Logistic Regression](#cost-function-for-logistic-regression)
 
 ## Linear Regression
 
@@ -50,6 +51,8 @@ $$
 - $m$ is the number of training examples.
 - $f_{wb}(x^{(i)})$ is the predicted value of the model for the $i$-th training example.
 - $y^{(i)}$ is the actual value for the $i$-th training example.
+- Squaring the differences ensures all errors are positive, which avoids negative and positive errors canceling each other out.
+- It heavily penalizes larger errors, making the model more sensitive to significant deviations.
 
 ### Gradient Descent
 
@@ -370,3 +373,56 @@ w_1x_1^2 + w_2x_2^2 + b = 0
 $$
 
 ![alt text](images/non_linear_decision_boundary.png)
+
+
+### Cost Function for Logistic Regression
+
+The squared error cost function used for linear regression is convex. Used with the sigmoid function it because non-convex, leading to multiple local minima. For logistic regression, the cost function is the log loss function, which is convex.
+
+- Loss is a measure of the difference of a single example to its target value while the
+- Cost is a measure of the losses over the training set.
+
+Loss function:
+
+$$
+L(f_{\mathbf{w},b}(\mathbf{x}^{(i)}), y^{(i)}) = (-y^{(i)} \log\left(f_{\mathbf{w},b}\left( \mathbf{x}^{(i)} \right) \right) - \left( 1 - y^{(i)}\right) \log \left( 1 - f_{\mathbf{w},b}\left( \mathbf{x}^{(i)} \right) \right)
+$$
+
+The loss function can be rewritten to be easier to implement.
+  
+This is a rather formidable-looking equation. It is less daunting when you consider $y^{(i)}$ can have only two values, 0 and 1. One can then consider the equation in two pieces:  
+
+when $y^{(i)} = 0$, the left-hand term is eliminated:
+
+$$
+\begin{align}
+L(f_{\mathbf{w},b}(\mathbf{x}^{(i)}), 0) &= (-(0) \log\left(f_{\mathbf{w},b}\left( \mathbf{x}^{(i)} \right) \right) - \left( 1 - 0\right) \log \left( 1 - f_{\mathbf{w},b}\left( \mathbf{x}^{(i)} \right) \right) \\
+&= -\log \left( 1 - f_{\mathbf{w},b}\left( \mathbf{x}^{(i)} \right) \right)
+\end{align}
+$$
+
+and when $y^{(i)} = 1$, the right-hand term is eliminated:
+
+$$
+\begin{align}
+  L(f_{\mathbf{w},b}(\mathbf{x}^{(i)}), 1) &=  (-(1) \log\left(f_{\mathbf{w},b}\left( \mathbf{x}^{(i)} \right) \right) - \left( 1 - 1\right) \log \left( 1 - f_{\mathbf{w},b}\left( \mathbf{x}^{(i)} \right) \right)\\
+  &=  -\log\left(f_{\mathbf{w},b}\left( \mathbf{x}^{(i)} \right) \right)
+\end{align}
+$$
+
+Logistic loss function for a single example $(\mathbf{x}^{(i)}, y^{(i)})$:
+
+$$
+  L(f_{\mathbf{w},b}(\mathbf{x}^{(i)}), y^{(i)}) = \begin{cases}
+    - \log\left(f_{\mathbf{w},b}\left( \mathbf{x}^{(i)} \right) \right) & \text{if $y^{(i)}=1$}\\
+    - \log \left( 1 - f_{\mathbf{w},b}\left( \mathbf{x}^{(i)} \right) \right) & \text{if $y^{(i)}=0$}
+  \end{cases}
+$$
+
+![alt text](images/logistic_loss_function.png)
+
+Log loss cost function:
+
+$$
+L(\vec{w}, b) = -\frac{1}{m} \sum_{i=1}^{m} \left( y^{(i)} \log(\hat{y}^{(i)}) + (1 - y^{(i)}) \log(1 - \hat{y}^{(i)}) \right)
+$$
