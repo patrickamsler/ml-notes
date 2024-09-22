@@ -21,6 +21,8 @@
     - [Decision Boundary](#decision-boundary)
     - [Cost Function for Logistic Regression](#cost-function-for-logistic-regression)
     - [Gradient Descent for Logistic Regression](#gradient-descent-for-logistic-regression)
+  - [The Problem of Overfitting and Underfitting](#the-problem-of-overfitting-and-underfitting)
+    - [Regularization to Reduce Overfitting](#regularization-to-reduce-overfitting)
 
 ## Linear Regression
 
@@ -460,3 +462,40 @@ Partial Derivative with Respect to $\vec{b}$:
 $$
 \frac{\partial}{\partial b} J(\vec{w}, b) = \frac{1}{m} \sum_{i=1}^{m} \left( f_{wb}(\vec{x}^{(i)}) - y^{(i)} \right)
 $$
+
+The partial derivatives are the same as for linear regression, but the model predicts the output using the sigmoid function.
+
+## The Problem of Overfitting and Underfitting
+
+- A model with high bias does not fit the training set well. It is called underfitting.
+- If it has a high variance, it fits the training set too well and does not generalize to new data. It is called overfitting.
+
+Regression ![alt text](images/overfitting_regression.png)
+
+Classification ![alt text](images/overfitting_classification.png)
+
+### Regularization to Reduce Overfitting
+
+- Collect more training data is the best solution.
+- Select only the most important features based on intuition or domain knowledge.
+- Reduce the weight of the less important features.
+
+Regularization adds a penalty term to the cost function to reduce the complexity of the model. It discourages the weights from becoming too large, which can lead to overfitting.
+
+L2 Regularization (Ridge)
+
+$$
+J(\vec{w}, b) = \frac{1}{2m} \sum_{i=1}^{m} \left( f_{\vec{w}b}(\vec{x}^{(i)}) - y^{(i)} \right)^2 + \frac{\lambda}{2m} \sum_{j=1}^{n} w_j^2
+$$
+
+- $\lambda$ is the regularization parameter that controls the strength of the regularization.
+- if lambda is zero, the regularization term has no effect.
+- the parameter $b$ is not regularized but can be included in the regularization term as well.
+- higher order features usually have larger weights, those features typically end up being more penalized by the regularization term.
+
+Gradient Descent with L2 Regularization:
+
+$$
+\vec{w} := \vec{w} - \alpha \left( \frac{1}{m} \sum_{i=1}^{m} \left( f_{\vec{w}b}(\vec{x}^{(i)}) - y^{(i)} \right) \vec{x}^{(i)} + \frac{\lambda}{m} \vec{w} \right)
+$$
+
