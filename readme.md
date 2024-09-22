@@ -20,6 +20,7 @@
     - [Logistic Regression Model](#logistic-regression-model)
     - [Decision Boundary](#decision-boundary)
     - [Cost Function for Logistic Regression](#cost-function-for-logistic-regression)
+    - [Gradient Descent for Logistic Regression](#gradient-descent-for-logistic-regression)
 
 ## Linear Regression
 
@@ -430,4 +431,32 @@ $$
 
 $$
 J(\vec{w}, b) = -\frac{1}{m} \sum_{i=1}^{m} \left( y^{(i)} \log(\hat{y}^{(i)}) + (1 - y^{(i)}) \log(1 - \hat{y}^{(i)}) \right)
+$$
+
+### Gradient Descent for Logistic Regression
+
+The parameters $w$ and $b$ are updated simultaneous using the following rules:
+
+$$
+\vec{w} := \vec{w} - \alpha \frac{\partial}{\partial \vec{w}} J(\vec{w}, b)
+$$
+
+$$
+b := b - \alpha \frac{\partial}{\partial b} J(\vec{w}, b)
+$$
+
+Partial Derivative with Respect to $\vec{w}$:
+
+$$
+\frac{\partial}{\partial w_j} J(\vec{w}, b) = \frac{1}{m} \sum_{i=1}^{m} \left( f_{wb}(\vec{x}^{(i)}) - y^{(i)} \right) x_j^{(i)}
+$$
+
+$$
+\frac{\partial}{\partial \vec{w}} J(\vec{w}, b) = \frac{1}{m} \vec{X}^T (\vec{X} \vec{w} + b - \vec{y})
+$$
+
+Partial Derivative with Respect to $\vec{b}$:
+
+$$
+\frac{\partial}{\partial b} J(\vec{w}, b) = \frac{1}{m} \sum_{i=1}^{m} \left( f_{wb}(\vec{x}^{(i)}) - y^{(i)} \right)
 $$
