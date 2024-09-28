@@ -499,3 +499,6 @@ $$
 \vec{w} := \vec{w} - \alpha \left( \frac{1}{m} \sum_{i=1}^{m} \left( f_{\vec{w}b}(\vec{x}^{(i)}) - y^{(i)} \right) \vec{x}^{(i)} + \frac{\lambda}{m} \vec{w} \right)
 $$
 
+![alt text](images/cost_function_with_regularization.png)
+
+The cost function (red line) increases the overall cost for large values of $w$.
