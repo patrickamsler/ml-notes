@@ -23,6 +23,7 @@
     - [Gradient Descent for Logistic Regression](#gradient-descent-for-logistic-regression)
   - [The Problem of Overfitting and Underfitting](#the-problem-of-overfitting-and-underfitting)
     - [Regularization to Reduce Overfitting](#regularization-to-reduce-overfitting)
+  - [Neural Networks](#neural-networks)
 
 ## Linear Regression
 
@@ -502,3 +503,40 @@ $$
 ![alt text](images/cost_function_with_regularization.png)
 
 The cost function (red line) increases the overall cost for large values of $w$.
+
+## Neural Networks
+
+- Inference (forward propagation): Predicting the output for new, unseen data. 
+- Training (back propagation): Learning the parameters of the model from labeled data. It is called backpropagation.
+
+![alt text](images/neural_network.png)
+
+Neural network with 3 layers (we do not count the input layer), two hidden layers and the output layer. The first hidden layer has 3 neurons the second hidden layer has 4 neurons.
+
+A neuron has inputs $x_1, x_2, …, x_n$ and weights $w_1, w_2, …, w_n$. The output of the neuron is the weighted sum of the inputs passed through an activation function.
+
+$$
+z = w_1x_1 + w_2x_2 + \dots + w_nx_n + b
+$$
+
+$$
+z = \vec{w} \cdot \vec{x} + b
+$$
+
+Activation function (usually sigmoid):
+
+$$
+\vec{a} = f(z)
+$$
+
+<img src="images/neural_network2.png" alt="Neural Network 2" height="300" />
+
+The output of the activation function is the input to the next layer.
+
+
+The activation of the \( j \)-th neuron (unit) in the \( l \)-th layer:
+
+$$
+a_j^{(l)} = f\left( \vec{w}_{j}^{(l)} \cdot \vec{a}^{(l-1)} + b_j^{(l)} \right)
+$$
+
