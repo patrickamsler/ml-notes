@@ -547,6 +547,12 @@ $$
 a_2^{(1)} = f\left( \vec{w}_{2}^{(1)} \cdot \vec{a}^{(0)} + b_2^{(1)} \right)
 $$
 
+The number of parameters for a layer:
+
+$$
+\text{number of inputs} * \text{number of neurons} + \text{number of biases}
+$$
+
 ### Inference with Tensorflow
 
 ![alt text](images/neural_network3.png)
