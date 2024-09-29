@@ -3,6 +3,7 @@
 - [Linear Algebra](#linear-algebra)
   - [Dot Product](#dot-product)
   - [Square of a Vector](#square-of-a-vector)
+  - [Matrix Transpose](#matrix-transpose)
   - [Matrix Multiplication](#matrix-multiplication)
 
 
@@ -42,6 +43,27 @@ Example with a vector $\vec{v} = [1, 2, 3]$:
 
 $$
 \vec{v} \cdot \vec{v} = (1)^2 + (2)^2 + (3)^2 = 14
+$$
+
+## Matrix Transpose
+
+The transpose of a matrix is obtained by swapping the rows and columns.
+
+$$
+\mathbf{A} =
+\begin{pmatrix}
+1 & 2 & 3 \\
+4 & 5 & 6
+\end{pmatrix}
+$$
+
+$$
+\mathbf{A}^T =
+\begin{pmatrix}
+1 & 4 \\
+2 & 5 \\
+3 & 6
+\end{pmatrix}
 $$
 
 ## Matrix Multiplication
