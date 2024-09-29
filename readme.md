@@ -24,6 +24,7 @@
   - [The Problem of Overfitting and Underfitting](#the-problem-of-overfitting-and-underfitting)
     - [Regularization to Reduce Overfitting](#regularization-to-reduce-overfitting)
   - [Neural Networks](#neural-networks)
+    - [Inference with Tensorflow](#inference-with-tensorflow)
 
 ## Linear Regression
 
@@ -534,9 +535,34 @@ $$
 The output of the activation function is the input to the next layer.
 
 
-The activation of the \( j \)-th neuron (unit) in the \( l \)-th layer:
+The activation of the \( j \)-th neuron (unit) in the \( l \)-th layer (dense):
 
 $$
 a_j^{(l)} = f\left( \vec{w}_{j}^{(l)} \cdot \vec{a}^{(l-1)} + b_j^{(l)} \right)
 $$
 
+e.g. second neuron in the first layer (instead of x we use a(0)):
+
+$$
+a_2^{(1)} = f\left( \vec{w}_{2}^{(1)} \cdot \vec{a}^{(0)} + b_2^{(1)} \right)
+$$
+
+### Inference with Tensorflow
+
+![alt text](images/neural_network3.png)
+
+```python
+x = np.array([[200.0, 17.0]])
+layer_1 = Dense(units=3, activation=‘sigmoid’)
+a1 = layer_1(x)
+
+layer_2 = Dense(units=1, activation=‘sigmoid’)
+a2 = layer_2(a1)
+
+if a2 >= 0.5:
+  yhat = 1
+else:
+  yhat = 0  
+```
+
+ 
