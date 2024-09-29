@@ -56,6 +56,8 @@ $$
 - It is associative, so $(A \times B) \times C = A \times (B \times C)$.
 - If the number of columns $n$ in $\mathbf{A}$ doesn’t match the number of rows $n$ in $\mathbf{B}$, matrix multiplication is not possible
 
+Matrix $\mathbf{A}$ (3 rows, 2 columns):
+
 $$
 \mathbf{A} =
 \begin{pmatrix}
