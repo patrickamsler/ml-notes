@@ -49,7 +49,7 @@ $$
 Given matrices $\mathbf{A}$ of dimensions $m \times n$ and $\mathbf{B}$ of dimensions $n \times p$, the product $\mathbf{C}$ will have dimensions $m \times p$. The elements of $\mathbf{C}$ are computed as:
 
 $$
-\mathbf{C}_{mp} = \sum_{k=1}^{n} \mathbf{A}_{mn} \mathbf{B}_{np}
+\mathbf{C}_{mp} = {A}_{mn} \times {B}_{np}
 $$
 
 - Matrix multiplication is not commutative, meaning $A \times B \neq B \times A$ in general.
