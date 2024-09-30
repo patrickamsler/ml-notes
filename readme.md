@@ -24,7 +24,7 @@
   - [The Problem of Overfitting and Underfitting](#the-problem-of-overfitting-and-underfitting)
     - [Regularization to Reduce Overfitting](#regularization-to-reduce-overfitting)
   - [Neural Networks](#neural-networks)
-    - [Inference with Tensorflow](#inference-with-tensorflow)
+    - [Neural Network with Tensorflow](#neural-network-with-tensorflow)
 
 ## Linear Regression
 
@@ -553,22 +553,28 @@ $$
 \text{number of inputs} * \text{number of neurons} + \text{number of biases}
 $$
 
-### Inference with Tensorflow
+### Neural Network with Tensorflow
 
-![alt text](images/neural_network3.png)
+Neural network with 2 hidden layer and 1 output layer. Epochs are the number of times the model sees the training data.
 
 ```python
-x = np.array([[200.0, 17.0]])
-layer_1 = Dense(units=3, activation=‘sigmoid’)
-a1 = layer_1(x)
+import tensorflow as tf
+from tensorflow.keras import Sequential
+from tensorflow.keras.layers import Dense
+from tensorflow.keras.losses import BinaryCrossentropy
 
-layer_2 = Dense(units=1, activation=‘sigmoid’)
-a2 = layer_2(a1)
+# Define the model with 2 hidden layers
+model = Sequential([
+  Dense(units=25, activation='sigmoid'),
+  Dense(units=15, activation='sigmoid'),
+  Dense(units=1, activation='sigmoid')
+)]
 
-if a2 >= 0.5:
-  yhat = 1
-else:
-  yhat = 0  
+# Compile the model and define the loss function
+model.compile(loss=BinaryCrossentropy())
+
+# Train the model with the training data
+model.fit(X,Y, epochs=100)
 ```
 
  
