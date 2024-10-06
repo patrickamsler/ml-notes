@@ -26,6 +26,8 @@
   - [Neural Networks](#neural-networks)
     - [Neural Network with Tensorflow](#neural-network-with-tensorflow)
     - [Activation Functions](#activation-functions)
+    - [Multiclass Classification](#multiclass-classification)
+      - [Cost Function for Multiclass Classification](#cost-function-for-multiclass-classification)
 
 ## Linear Regression
 
@@ -595,7 +597,7 @@ model.fit(X,Y, epochs=100)
 
 ### Activation Functions
 
-The activation function of a neuron defines if the output of the neuron is activated or not. It introduces non-linearity to the model, allowing it to learn complex patterns in the data. 
+The activation function of a neuron defines when the output of the neuron is activated or not. It introduces non-linearity to the model, allowing it to learn complex patterns in the data. 
 
 If always using linear activation functions, the model would be equivalent to a linear regression model. If all hidden layers have linear activation functions, and the output layer has a sigmoid activation function, the model would be equivalent to logistic regression.
 
@@ -621,3 +623,80 @@ $$
 g(z) = \max(0, z)
 $$
 
+### Multiclass Classification
+
+Y can take more than two possible values. The output layer has one neuron for each class. The activation function is softmax, which squashes the output between 0 and 1 and normalizes the output so that the sum of the outputs is 1.
+
+Softmax function:
+
+$$
+\text{softmax}(z)_i = \frac{e^{z_i}}{\sum_{j=1}^{n} e^{z_j}}
+$$
+
+- n: the number of classes.
+- e: Euler's number
+- j: the index of the output neuron.
+
+The output of the neurons z is passed through the softmax function to get the predicted probabilities for each class.
+
+$$
+z_1 = \vec{w}_1 \cdot \vec{x} + b_1
+$$
+
+$$  
+z_2 = \vec{w}_2 \cdot \vec{x} + b_2
+$$
+
+$$
+z_3 = \vec{w}_3 \cdot \vec{x} + b_3
+$$
+
+Probabilities for class 1:
+
+$$
+P(y=1|\vec{x}) = a_1
+$$
+
+$$
+a_1 = \frac{e^{z_1}}{e^{z_1} + e^{z_2} + e^{z_3}}
+$$
+
+Probabilities for class 2:
+
+$$
+P(y=2|\vec{x}) = a_2
+$$
+
+$$
+a_2 = \frac{e^{z_2}}{e^{z_1} + e^{z_2} + e^{z_3}}
+$$
+
+Probabilities for class 3:
+
+$$
+P(y=3|\vec{x}) = a_3
+$$
+
+$$
+a_3 = \frac{e^{z_3}}{e^{z_1} + e^{z_2} + e^{z_3}}
+$$
+
+The sum of the probabilities a1, a2, a3 is 1.
+
+#### Cost Function for Multiclass Classification
+
+The cost function for multiclass classification is the cross-entropy loss function. It measures the difference between the predicted probabilities and the actual values.
+
+$$
+L(f_{\vec{w}b}(\vec{x}^{(i)}), y^{(i)}) = - \sum_{j=1}^{n} y_j^{(i)} \log\left(f_{\vec{w}b}(\vec{x}^{(i)})_j \right)
+$$
+
+- y: the actual output for the training example.
+- j: the index of the output neuron.
+- i: the index of the training example.
+
+Loss for a single example:
+
+$$
+loss(a_j) = -y_j \log(a_j)
+$$
