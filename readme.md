@@ -28,7 +28,6 @@
     - [Activation Functions](#activation-functions)
     - [Multiclass Classification](#multiclass-classification)
       - [Softmax Function](#softmax-function)
-- [\\end{bmatrix}](#endbmatrix)
       - [Cost Function for Multiclass Classification](#cost-function-for-multiclass-classification)
       - [Multiclass Classification with Tensorflow](#multiclass-classification-with-tensorflow)
     - [Multilable Classification](#multilable-classification)
@@ -633,37 +632,35 @@ Y can take more than two possible values. The output layer has one neuron for ea
 
 ![alt text](images/multiclass_classification.png)
 
- #### Softmax Function
+#### Softmax Function
 
  The softmax function can be written:
 
 $$
-a_j = \frac{e^{z_j}}{ \sum_{k=1}^{N}{e^{z_k} }} \tag{1}
+a_j = \frac{e^{z_j}}{ \sum_{k=1}^{N}{e^{z_k} }}
 $$
 
 - $a_j$: The output of the $j$-th neuron.
 - $k$: The index of the output neuron.
 - $N$: The number of output neurons.
 
-The output $\mathbf{a}$ is a vector of length N, so for softmax regression, you could also write:
+The output $a$ is a vector of length N, so for softmax regression, you could also write:
 
-$$
-\begin{align}
-\mathbf{a}(x) =
-\begin{bmatrix}
-P(y = 1 | \mathbf{x}; \mathbf{w},b) \\
+<!-- $$
+a(x) =
+\begin{pmatrix}
+P(y = 1 | x; w,b) \\
 \vdots \\
-P(y = N | \mathbf{x}; \mathbf{w},b)
-\end{bmatrix}
+P(y = N | x; w,b)
+\end{pmatrix} 
 =
 \frac{1}{ \sum_{k=1}^{N}{e^{z_k} }}
-\begin{bmatrix}
+\begin{pmatrix}
 e^{z_1} \\
 \vdots \\
-e^{z_{N}} \\
-\end{bmatrix} \tag{2}
-\end{align}
-$$
+e^{z_{N}}
+\end{pmatrix}
+$$ -->
 
 The output of the neurons z is passed through the softmax function to get the predicted probabilities for each class.
 
@@ -711,7 +708,7 @@ The loss function associated with Softmax, the cross-entropy loss, is:
 
 $$
 \begin{equation}
-  L(\mathbf{a},y)=\begin{cases}
+  L(a,y)=\begin{cases}
     -log(a_1), & \text{if $y=1$}.\\
         &\vdots\\
      -log(a_N), & \text{if $y=N$}
@@ -725,7 +722,6 @@ $$
 \begin{align}
 J(\mathbf{w},b) = -\frac{1}{m} \left[ \sum_{i=1}^{m} \sum_{j=1}^{N}  1\left\{y^{(i)} == j\right\} \log \frac{e^{z^{(i)}_j}}{\sum_{k=1}^N e^{z^{(i)}_k} }\right]
 \end{align}
-
 $$
 
 Where $m$ is the number of examples, $N$ is the number of outputs. This is the average of all the losses.
