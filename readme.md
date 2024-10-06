@@ -646,21 +646,21 @@ $$
 
 The output $a$ is a vector of length N, so for softmax regression, you could also write:
 
-<!-- $$
+```math
 a(x) =
-\begin{pmatrix}
+\begin{bmatrix}
 P(y = 1 | x; w,b) \\
 \vdots \\
 P(y = N | x; w,b)
-\end{pmatrix} 
+\end{bmatrix} 
 =
 \frac{1}{ \sum_{k=1}^{N}{e^{z_k} }}
-\begin{pmatrix}
+\begin{bmatrix}
 e^{z_1} \\
 \vdots \\
 e^{z_{N}}
-\end{pmatrix}
-$$ -->
+\end{bmatrix}
+```
 
 The output of the neurons z is passed through the softmax function to get the predicted probabilities for each class.
 
@@ -718,11 +718,11 @@ $$
 
 The cost function that covers all examples is:
 
-$$
+```math
 \begin{align}
 J(\mathbf{w},b) = -\frac{1}{m} \left[ \sum_{i=1}^{m} \sum_{j=1}^{N}  1\left\{y^{(i)} == j\right\} \log \frac{e^{z^{(i)}_j}}{\sum_{k=1}^N e^{z^{(i)}_k} }\right]
 \end{align}
-$$
+```
 
 Where $m$ is the number of examples, $N$ is the number of outputs. This is the average of all the losses.
 
