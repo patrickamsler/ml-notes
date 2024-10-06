@@ -27,7 +27,11 @@
     - [Neural Network with Tensorflow](#neural-network-with-tensorflow)
     - [Activation Functions](#activation-functions)
     - [Multiclass Classification](#multiclass-classification)
+      - [Softmax Function](#softmax-function)
+- [\\end{bmatrix}](#endbmatrix)
       - [Cost Function for Multiclass Classification](#cost-function-for-multiclass-classification)
+      - [Multiclass Classification with Tensorflow](#multiclass-classification-with-tensorflow)
+    - [Multilable Classification](#multilable-classification)
 
 ## Linear Regression
 
@@ -527,7 +531,7 @@ $$
 z = \vec{w} \cdot \vec{x} + b
 $$
 
-Activation function (usually sigmoid):
+Activation function (usually sigmoid for binary classification, softmax for multiclass classification, ReLU for hidden layers):
 
 $$
 \vec{a} = f(z)
@@ -627,76 +631,154 @@ $$
 
 Y can take more than two possible values. The output layer has one neuron for each class. The activation function is softmax, which squashes the output between 0 and 1 and normalizes the output so that the sum of the outputs is 1.
 
-Softmax function:
+![alt text](images/multiclass_classification.png)
+
+ #### Softmax Function
+
+ The softmax function can be written:
 
 $$
-\text{softmax}(z)_i = \frac{e^{z_i}}{\sum_{j=1}^{n} e^{z_j}}
+a_j = \frac{e^{z_j}}{ \sum_{k=1}^{N}{e^{z_k} }} \tag{1}
 $$
 
-- n: the number of classes.
-- e: Euler's number
-- j: the index of the output neuron.
+- $a_j$: The output of the $j$-th neuron.
+- $k$: The index of the output neuron.
+- $N$: The number of output neurons.
+
+The output $\mathbf{a}$ is a vector of length N, so for softmax regression, you could also write:
+
+$$
+\begin{align}
+\mathbf{a}(x) =
+\begin{bmatrix}
+P(y = 1 | \mathbf{x}; \mathbf{w},b) \\
+\vdots \\
+P(y = N | \mathbf{x}; \mathbf{w},b)
+\end{bmatrix}
+=
+\frac{1}{ \sum_{k=1}^{N}{e^{z_k} }}
+\begin{bmatrix}
+e^{z_1} \\
+\vdots \\
+e^{z_{N}} \\
+\end{bmatrix} \tag{2}
+\end{align}
+$$
 
 The output of the neurons z is passed through the softmax function to get the predicted probabilities for each class.
 
 $$
-z_1 = \vec{w}_1 \cdot \vec{x} + b_1
-$$
-
-$$  
-z_2 = \vec{w}_2 \cdot \vec{x} + b_2
+z_1^{[3]} = \vec{w}_1^{[3]} \cdot \vec{a}^{[2]} + b_1^{[3]} 
 $$
 
 $$
-z_3 = \vec{w}_3 \cdot \vec{x} + b_3
+z_2^{[3]} = \vec{w}_2^{[3]} \cdot \vec{a}^{[2]} + b_2^{[3]} 
+$$
+
+...
+
+$$
+z_n^{[3]} = \vec{w}_n^{[3]} \cdot \vec{a}^{[2]} + b_n^{[3]} 
 $$
 
 Probabilities for class 1:
 
 $$
-P(y=1|\vec{x}) = a_1
+P(y=1|\vec{x}) = a_1^{[3]}
 $$
 
 $$
-a_1 = \frac{e^{z_1}}{e^{z_1} + e^{z_2} + e^{z_3}}
+a_1^{[3]} = \frac{e^{z_1^{[3]}}}{e^{z_1^{[3]}} + ... + e^{z_n^{[3]}}}
 $$
 
-Probabilities for class 2:
+
+Probabilities for class n:
 
 $$
-P(y=2|\vec{x}) = a_2
-$$
-
-$$
-a_2 = \frac{e^{z_2}}{e^{z_1} + e^{z_2} + e^{z_3}}
-$$
-
-Probabilities for class 3:
-
-$$
-P(y=3|\vec{x}) = a_3
+P(y=n|\vec{x}) = a_n^{[3]}
 $$
 
 $$
-a_3 = \frac{e^{z_3}}{e^{z_1} + e^{z_2} + e^{z_3}}
+a_n^{[3]} = \frac{e^{z_n^{[3]}}}{e^{z_1^{[3]}} + ... + e^{z_n^{[3]}}}
 $$
 
-The sum of the probabilities a1, a2, a3 is 1.
+- the output values sum to one
+- the softmax spans all of the outputs. A change in z0 for example will change the values of a0-a3. Compare this to other activations such as ReLU or Sigmoid which have a single input and single output.
 
 #### Cost Function for Multiclass Classification
 
-The cost function for multiclass classification is the cross-entropy loss function. It measures the difference between the predicted probabilities and the actual values.
+The loss function associated with Softmax, the cross-entropy loss, is:
 
 $$
-L(f_{\vec{w}b}(\vec{x}^{(i)}), y^{(i)}) = - \sum_{j=1}^{n} y_j^{(i)} \log\left(f_{\vec{w}b}(\vec{x}^{(i)})_j \right)
+\begin{equation}
+  L(\mathbf{a},y)=\begin{cases}
+    -log(a_1), & \text{if $y=1$}.\\
+        &\vdots\\
+     -log(a_N), & \text{if $y=N$}
+  \end{cases}
+\end{equation}
 $$
 
-- y: the actual output for the training example.
-- j: the index of the output neuron.
-- i: the index of the training example.
+The cost function that covers all examples is:
+
+$$
+\begin{align}
+J(\mathbf{w},b) = -\frac{1}{m} \left[ \sum_{i=1}^{m} \sum_{j=1}^{N}  1\left\{y^{(i)} == j\right\} \log \frac{e^{z^{(i)}_j}}{\sum_{k=1}^N e^{z^{(i)}_k} }\right]
+\end{align}
+
+$$
+
+Where $m$ is the number of examples, $N$ is the number of outputs. This is the average of all the losses.
 
 Loss for a single example:
 
 $$
 loss(a_j) = -y_j \log(a_j)
 $$
+
+#### Multiclass Classification with Tensorflow
+
+Model outputs the predicted probabilities for each class.
+
+```python
+model = Sequential([
+  Dense(units=25, activation='relu')
+  Dense(units=15, activation='relu')
+  Dense(units=10, activation='softmax')
+])
+
+model.compile(loss=SparseCategoricalCrossEntropy())
+model.fit(X,Y,epochs=100)
+
+# Predict the probabilities for each class
+probabilities = model(X)
+```
+
+A numerical more accourate way is to use a linear output layer and the softmax loss function. The model outputs the z1, z2, z3, ... zn. The probabilities are obtained by passing the logits through the softmax function.
+
+```python
+model = Sequential([
+  Dense(units=25, activation='relu')
+  Dense(units=15, activation='relu')
+  Dense(units=10, activation='linear') # Model outputs z1, z2, z3, ... zn
+])
+
+# Softmax activation function in the loss function
+model.compile(loss=SparseCategoricalCrossEntropy(from_logits=True))
+model.fit(X,Y,epochs=100)
+
+# the model does not output the probabilities, it outputs z1, z2, z3, ... zn
+logits = model(X)
+
+# to get the probabilities, pass the logits through the softmax function
+f_x = tf.nn.softmax(logits)
+```
+
+### Multilable Classification
+
+Multilabel classification is a classification task where each instance can belong to multiple classes. The output layer has one neuron for each class. The activation function is sigmoid, which squashes the output between 0 and 1.
+
+Different from multiclass classification, where the sum of the probabilities is 1, in multilabel classification, the sum of the probabilities can be greater than 1.
+
+![alt text](images/multilabel_classification.png)
+
