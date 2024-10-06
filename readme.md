@@ -25,6 +25,7 @@
     - [Regularization to Reduce Overfitting](#regularization-to-reduce-overfitting)
   - [Neural Networks](#neural-networks)
     - [Neural Network with Tensorflow](#neural-network-with-tensorflow)
+    - [Activation Functions](#activation-functions)
 
 ## Linear Regression
 
@@ -555,7 +556,22 @@ $$
 
 ### Neural Network with Tensorflow
 
-Neural network with 2 hidden layer and 1 output layer. Epochs are the number of times the model sees the training data.
+Neural network with 2 hidden layer and 1 output layer. Epochs (iterations) are the number of times the model sees the training data.
+
+Binary Crossentropy is the loss function for binary classification also known as logistic loss. It is the same as the log loss function used for logistic regression.
+
+Loss function:
+
+$$
+L(f_{\vec{w}b}(\vec{x}^{(i)}), y^{(i)}) = (-y^{(i)} \log\left(f_{\vec{w}b}\left( \vec{x}^{(i)} \right) \right) - \left( 1 - y^{(i)}\right) \log \left( 1 - f_{\vec{w}b}\left( \vec{x}^{(i)} \right) \right)
+$$
+
+Cost function:
+
+$$
+J(\vec{w}, b) = \frac{1}{m} \sum_{i=1}^{m} \left( L(f_{\vec{w}b}(\vec{x}^{(i)}), y^{(i)}) \right)
+$$
+
 
 ```python
 import tensorflow as tf
@@ -565,16 +581,43 @@ from tensorflow.keras.losses import BinaryCrossentropy
 
 # Define the model with 2 hidden layers
 model = Sequential([
-  Dense(units=25, activation='sigmoid'),
-  Dense(units=15, activation='sigmoid'),
+  Dense(units=25, activation='relu'),
+  Dense(units=15, activation='relu'),
   Dense(units=1, activation='sigmoid')
 )]
 
 # Compile the model and define the loss function
 model.compile(loss=BinaryCrossentropy())
 
-# Train the model with the training data
+# Train the model with backpropagation
 model.fit(X,Y, epochs=100)
 ```
 
- 
+### Activation Functions
+
+The activation function of a neuron defines if the output of the neuron is activated or not. It introduces non-linearity to the model, allowing it to learn complex patterns in the data. 
+
+If always using linear activation functions, the model would be equivalent to a linear regression model. If all hidden layers have linear activation functions, and the output layer has a sigmoid activation function, the model would be equivalent to logistic regression.
+
+Common activation functions are ReLU for hidden layers and sigmoid for the output layer.
+
+![alt text](images/activation_functions.png)
+
+- **Linear**: Output is the same as the input. Used in the output layer for regression problems. Almost the same as no activation function. It can predict any real number. E.g. predict stock prices where the output can be any positive or negative number. 
+
+$$
+g(z) = z
+$$
+
+- **Sigmoid**: Used in the output layer for binary classification. It squashes the output between 0 and 1.
+
+$$
+g(z) = \frac{1}{1 + e^{-z}}
+$$
+
+- **ReLU**: Rectified Linear Unit. Used in hidden layers. When the input is negative (off range), the output is zero. It is faster to compute than the sigmoid function. Gradient descent is faster.
+
+$$
+g(z) = \max(0, z)
+$$
+
