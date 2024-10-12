@@ -31,6 +31,10 @@
       - [Cost Function for Multiclass Classification](#cost-function-for-multiclass-classification)
       - [Multiclass Classification with Tensorflow](#multiclass-classification-with-tensorflow)
     - [Multilable Classification](#multilable-classification)
+    - [Adam Algorithm](#adam-algorithm)
+    - [Layers in a Neural Network](#layers-in-a-neural-network)
+      - [Dense Layer](#dense-layer)
+      - [Convolutional Layer](#convolutional-layer)
 
 ## Linear Regression
 
@@ -629,6 +633,7 @@ $$
 ### Multiclass Classification
 
 Y can take more than two possible values. The output layer has one neuron for each class. The activation function is softmax, which squashes the output between 0 and 1 and normalizes the output so that the sum of the outputs is 1.
+The output of neuron is the predicted probability for the class.
 
 ![alt text](images/multiclass_classification.png)
 
@@ -716,6 +721,8 @@ $$
 \end{equation}
 $$
 
+![alt text](images/crosstropy_loss.png)
+
 The cost function that covers all examples is:
 
 ```math
@@ -778,3 +785,28 @@ Different from multiclass classification, where the sum of the probabilities is 
 
 ![alt text](images/multilabel_classification.png)
 
+### Adam Algorithm
+
+Adam stands for Adaptive Moment Estimations. It adapts the learning rate during gradient descent. It became a defacto standard for training deep learning models.
+
+```math
+w := w - \alpha \frac{\partial}{\partial w} J(w, b) \\
+b := b - \alpha \frac{\partial}{\partial b} J(w, b)
+```
+
+* If w or b keeps moving in the same direction it increases alpha, meaning it takes larger steps and it is faster. 
+* If w or b keeps oscillating, it decreases alpha, meaning it takes smaller steps and it is more stable.
+
+### Layers in a Neural Network
+
+#### Dense Layer
+
+Fully connected layer where each neuron is connected to all the neurons in the previous layer.
+
+![alt text](images/dense_layer.png)
+
+#### Convolutional Layer
+
+Each nuron only looks at a part of the prevous layer output. Often used in image recognition where each neuron looks at a small part of the image. Computations are reduced and is more efficient.
+
+![alt text](images/convolutional_layer.png)
