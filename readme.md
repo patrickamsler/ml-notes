@@ -807,6 +807,6 @@ Fully connected layer where each neuron is connected to all the neurons in the p
 
 #### Convolutional Layer
 
-Each nuron only looks at a part of the prevous layer output. Often used in image recognition where each neuron looks at a small part of the image. Computations are reduced and is more efficient.
+Each neuron only looks at a part of the prevous layer output. Often used in image recognition where each neuron looks at a small part of the image. Computations are reduced and is more efficient.
 
 ![alt text](images/convolutional_layer.png)
