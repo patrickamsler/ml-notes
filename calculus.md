@@ -4,7 +4,9 @@
   - [Basic Rules](#basic-rules)
     - [First Derivative](#first-derivative)
     - [Second Derivative](#second-derivative)
+    - [Notations](#notations)
     - [Chain Rule](#chain-rule)
+  - [Computation Graph](#computation-graph)
   - [Calculating Partial Derivatives of a Linear Function and the Squared Error Cost Function](#calculating-partial-derivatives-of-a-linear-function-and-the-squared-error-cost-function)
 
 
@@ -34,6 +36,20 @@ Critical Points:
 - If $f'(x) = 0$ and $f''(x) < 0$, there is a local maximum at that point.
 - If $f'(x) = 0$ and $f''(x) = 0$, further investigation is required.
 
+### Notations
+
+Function of single variable:
+
+$$
+\frac{d}{dw} J(w)
+$$
+
+Function of multiple variables (partial derivative):
+
+$$
+\frac{\partial}{\partial w_i} J(w_1, w_2, \ldots, w_n)
+$$
+
 ### Chain Rule
 
 Leibniz's notation:
@@ -47,6 +63,12 @@ Prime notation:
 $$
 (f(g(x)))' = f'(g(x)) \cdot g'(x)
 $$
+
+## Computation Graph
+
+A computation graph is a visual representation of the chain rule. It shows how the output of a function depends on the input variables and how the partial derivatives of the output with respect to the input variables are calculated.
+
+![alt text](images/computation_graph.png)
 
 ## Calculating Partial Derivatives of a Linear Function and the Squared Error Cost Function
 
