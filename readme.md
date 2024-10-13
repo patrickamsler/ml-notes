@@ -563,6 +563,16 @@ $$
 \text{number of inputs} * \text{number of neurons} + \text{number of biases}
 $$
 
+For layer 1 in the example with 5 inputs:
+- W1 is (5, 4) = 20 weight parameters
+- b1 is (4) bias parameters
+- total 24 parameters
+
+For layer 3 in the example:
+- W3 is (5, 3) = 15 weight parameters
+- b3 is (3) bias parameters
+- total 18 parameters
+
 ### Neural Network with Tensorflow
 
 Neural network with 2 hidden layer and 1 output layer. Epochs (iterations) are the number of times the model sees the training data.
@@ -745,8 +755,8 @@ Model outputs the predicted probabilities for each class.
 
 ```python
 model = Sequential([
-  Dense(units=25, activation='relu')
-  Dense(units=15, activation='relu')
+  Dense(units=25, activation='relu'),
+  Dense(units=15, activation='relu'),
   Dense(units=10, activation='softmax')
 ])
 
@@ -761,8 +771,8 @@ A numerical more accourate way is to use a linear output layer and the softmax l
 
 ```python
 model = Sequential([
-  Dense(units=25, activation='relu')
-  Dense(units=15, activation='relu')
+  Dense(units=25, activation='relu'),
+  Dense(units=15, activation='relu'),
   Dense(units=10, activation='linear') # Model outputs z1, z2, z3, ... zn
 ])
 
