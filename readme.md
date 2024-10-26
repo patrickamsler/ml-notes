@@ -35,6 +35,9 @@
     - [Layers in a Neural Network](#layers-in-a-neural-network)
       - [Dense Layer](#dense-layer)
       - [Convolutional Layer](#convolutional-layer)
+  - [Evaluating the Model](#evaluating-the-model)
+    - [Train test prodcedure for linear regression](#train-test-prodcedure-for-linear-regression)
+    - [Train test prodcedure for logistic regression](#train-test-prodcedure-for-logistic-regression)
 
 ## Linear Regression
 
@@ -820,3 +823,61 @@ Fully connected layer where each neuron is connected to all the neurons in the p
 Each neuron only looks at a part of the prevous layer output. Often used in image recognition where each neuron looks at a small part of the image. Computations are reduced and is more efficient.
 
 ![alt text](images/convolutional_layer.png)
+
+## Evaluating the Model
+
+If the model makes large errors in predictions (underfitting):
+Get more training examples
+- Try smaller sets of features
+- Try getting additional features
+- Try adding polynomial features
+- Try decreasing 𝜆
+- Try increasing 𝜆
+
+### Train test prodcedure for linear regression
+
+Split the data into training $\vec{x}_{\text{train}}$ and test $\vec{x}_{\text{test}}$ sets. E.g. 70% training and 30% test.
+The training set is used to train the model, and the test set is used to evaluate the model's performance on new, unseen data.
+
+
+The parameters are fit by minimizing the cost function:
+```math
+J(\vec{w}, b) = \frac{1}{2m} \sum_{i=1}^{m} \left( f_{\vec{w}b}(\vec{x}^{(i)}) - y^{(i)} \right)^2 + \frac{\lambda}{2m} \sum_{j=1}^{n} w_j^2
+```
+
+Compute the test error:
+```math
+J_{\text{test}}(\vec{w}, b) = \frac{1}{2m_{\text{test}}} \left[ \sum_{i=1}^{m_{\text{test}}} \left( f_{\vec{w}b}(\vec{x}^{(i)}_{\text{test}}) - y^{(i)}_{\text{test}} \right)^2 \right]
+```
+
+Compute the training error:
+```math
+J_{\text{train}}(\vec{w}, b) = \frac{1}{2m_{\text{train}}} \left[ \sum_{i=1}^{m_{\text{train}}} \left( f_{\vec{w}b}(\vec{x}^{(i)}_{\text{train}}) - y^{(i)}_{\text{train}} \right)^2 \right]
+```
+
+- If the model is overfitting, the training error will be low and the test error will be hight.
+- If the model is underfitting, both the training and test error will be high.
+
+### Train test prodcedure for logistic regression
+
+Binary classification with logistic regression:
+```math
+\hat{y} = 
+\begin{cases} 
+1 & \text{if } f_{w,b}(x^{(i)}) \geq 0.5 \\
+0 & \text{if } f_{w,b}(x^{(i)}) < 0.5 
+\end{cases}
+```
+
+Split the data into training $\vec{x}_{\text{train}}$ and test $\vec{x}_{\text{test}}$ sets. E.g. 70% training and 30% test. Count the misclassified examples where the predicted value $\hat{y} \neq y$. 
+
+Fraction of the test set and the freaction of the train set that the algorithm has misclassified:
+
+$$
+J_{\text{test}}(w, b) = \frac{\text{Number of misclassified examples in the test set}}{\text{Total number of examples in the test set}}
+$$
+
+$$
+J_{\text{train}}(w, b) = \frac{\text{Number of misclassified examples in the train set}}{\text{Total number of examples in the train set}}
+$$
+
