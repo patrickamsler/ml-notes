@@ -38,6 +38,7 @@
   - [Evaluating the Model](#evaluating-the-model)
     - [Train test prodcedure for linear regression](#train-test-prodcedure-for-linear-regression)
     - [Train test prodcedure for logistic regression](#train-test-prodcedure-for-logistic-regression)
+    - [Cross-Validation](#cross-validation)
 
 ## Linear Regression
 
@@ -873,11 +874,46 @@ Split the data into training $\vec{x}_{\text{train}}$ and test $\vec{x}_{\text{t
 
 Fraction of the test set and the freaction of the train set that the algorithm has misclassified:
 
-$$
+```math
 J_{\text{test}}(w, b) = \frac{\text{Number of misclassified examples in the test set}}{\text{Total number of examples in the test set}}
-$$
+```
 
-$$
+```math
 J_{\text{train}}(w, b) = \frac{\text{Number of misclassified examples in the train set}}{\text{Total number of examples in the train set}}
-$$
+```
 
+### Cross-Validation
+
+Cross-validation is used to estimate how well the model will generalize to new, unseen data.
+
+Split the data into training $\vec{x}_{\text{train}}$ and test $\vec{x}_{\text{test}}$ and validation $\vec{x}_{\text{cv}}$ sets. E.g. 60% training, 20% test, and 20% cross validation, sometimes also called the validation or development set.
+
+Training error:
+```math
+J_{\text{train}}(\vec{w}, b) = \frac{1}{2m_{\text{train}}} \sum_{i=1}^{m_{\text{train}}} \left( f_{\vec{w},b}(\vec{x}_{\text{train}}^{(i)}) - y_{\text{train}}^{(i)} \right)^2
+```
+
+Test error:
+```math
+J_{\text{test}}(\vec{w}, b) = \frac{1}{2m_{\text{test}}} \sum_{i=1}^{m_{\text{test}}} \left( f_{\vec{w},b}(\vec{x}_{\text{test}}^{(i)}) - y_{\text{test}}^{(i)} \right)^2
+```
+
+Cross validation error (validation error, dev error):
+```math
+J_{\text{cv}}(\vec{w}, b) = \frac{1}{2m_{\text{cv}}} \sum_{i=1}^{m_{\text{cv}}} \left( f_{\vec{w},b}(\vec{x}_{\text{cv}}^{(i)}) - y_{\text{cv}}^{(i)} \right)^2
+```
+
+Given some models with different degrees of polynomial features:
+```math
+f_{w,b}(x) = w_1 x_1 + b \\ 
+f_{w,b}(x) = w_1 x_1 + w_2 x_2 + b \\
+f_{w,b}(x) = w_1 x_1 + w_2 x_2 + w_3 x_3 + b
+```
+
+1. Fit the parameters of each model with the training set $\vec{x}_{\text{train}}$
+2. Choose the model (degree of polynomial) with the lowest cross-validation error $J_{\text{cv}}(w, b)$ based on the validation set $\vec{x}_{\text{cv}}$
+3. Estimate the generalization error $J_{\text{test}}(\vec{w}, b)$ on this model with the test set $\vec{x}_{\text{test}}$.
+
+This way, step 1 and 2 are used to select the model parameters. Step 1 chooses w and b and step 2 choose the degree of the polynomial. The test set is not involved in this process and can then be used to estimate a fair generalization error (unseen data) of the model.
+
+For binary classification $J_{\text{cv}}(w, b)$ is the fraction of misclassified examples. Cross-validation is also used to choose layers and neurons in a neural network.
