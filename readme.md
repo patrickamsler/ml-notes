@@ -844,12 +844,12 @@ The parameters are fit by minimizing the cost function:
 J(\vec{w}, b) = \frac{1}{2m} \sum_{i=1}^{m} \left( f_{\vec{w}b}(\vec{x}^{(i)}) - y^{(i)} \right)^2 + \frac{\lambda}{2m} \sum_{j=1}^{n} w_j^2
 ```
 
-Compute the test error:
+Compute the test error (MSE):
 ```math
 J_{\text{test}}(\vec{w}, b) = \frac{1}{2m_{\text{test}}} \left[ \sum_{i=1}^{m_{\text{test}}} \left( f_{\vec{w}b}(\vec{x}^{(i)}_{\text{test}}) - y^{(i)}_{\text{test}} \right)^2 \right]
 ```
 
-Compute the training error:
+Compute the training error (MSE):
 ```math
 J_{\text{train}}(\vec{w}, b) = \frac{1}{2m_{\text{train}}} \left[ \sum_{i=1}^{m_{\text{train}}} \left( f_{\vec{w}b}(\vec{x}^{(i)}_{\text{train}}) - y^{(i)}_{\text{train}} \right)^2 \right]
 ```
@@ -885,17 +885,17 @@ Cross-validation is used to estimate how well the model will generalize to new, 
 
 Split the data into training $\vec{x}_{\text{train}}$ and test $\vec{x}_{\text{test}}$ and validation $\vec{x}_{\text{cv}}$ sets. E.g. 60% training, 20% test, and 20% cross validation, sometimes also called the validation or development set.
 
-Training error:
+Training error (MSE):
 ```math
 J_{\text{train}}(\vec{w}, b) = \frac{1}{2m_{\text{train}}} \sum_{i=1}^{m_{\text{train}}} \left( f_{\vec{w},b}(\vec{x}_{\text{train}}^{(i)}) - y_{\text{train}}^{(i)} \right)^2
 ```
 
-Test error:
+Test error (MSE):
 ```math
 J_{\text{test}}(\vec{w}, b) = \frac{1}{2m_{\text{test}}} \sum_{i=1}^{m_{\text{test}}} \left( f_{\vec{w},b}(\vec{x}_{\text{test}}^{(i)}) - y_{\text{test}}^{(i)} \right)^2
 ```
 
-Cross validation error (validation error, dev error):
+Cross validation error (MSE) (also called validation error, dev error):
 ```math
 J_{\text{cv}}(\vec{w}, b) = \frac{1}{2m_{\text{cv}}} \sum_{i=1}^{m_{\text{cv}}} \left( f_{\vec{w},b}(\vec{x}_{\text{cv}}^{(i)}) - y_{\text{cv}}^{(i)} \right)^2
 ```
@@ -915,4 +915,6 @@ Given some models with different degrees of polynomial features:
 
 This way, step 1 and 2 are used to select the model parameters. Step 1 chooses w and b and step 2 choose the degree of the polynomial. The test set is not involved in this process and can then be used to estimate a fair generalization error (unseen data) of the model.
 
-For binary classification $J_{\text{cv}}(w, b)$ is the fraction of misclassified examples. Cross-validation is also used to choose layers and neurons in a neural network.
+- For binary classification $J_{\text{cv}}(w, b)$ is the fraction of misclassified examples. 
+- Cross-validation is also used to choose layers and neurons in a neural network.
+- Important to note, when using z-score feature nomalization the mean and standard deviation from the training set is also used to normalize the test and cross-validation sets.
