@@ -836,10 +836,8 @@ Get more training examples
 - Try increasing 𝜆
 
 ### Train test prodcedure for linear regression
-
 Split the data into training $\vec{x}_{\text{train}}$ and test $\vec{x}_{\text{test}}$ sets. E.g. 70% training and 30% test.
 The training set is used to train the model, and the test set is used to evaluate the model's performance on new, unseen data.
-
 
 The parameters are fit by minimizing the cost function:
 ```math
@@ -869,8 +867,7 @@ Binary classification with logistic regression:
 0 & \text{if } f_{w,b}(x^{(i)}) < 0.5 
 \end{cases}
 ```
-
-Split the data into training $\vec{x}_{\text{train}}$ and test $\vec{x}_{\text{test}}$ sets. E.g. 70% training and 30% test. Count the misclassified examples where the predicted value $\hat{y} \neq y$. 
+Split the data into training $\vec{x}_{\text{train}}$ and test $\vec{x}_{\text{test}}$ sets. E.g. 70% training and 30% test. Count the misclassified examples where the predicted value $\hat{y} \neq y$.
 
 Fraction of the test set and the freaction of the train set that the algorithm has misclassified:
 
