@@ -905,9 +905,11 @@ J_{\text{cv}}(\vec{w}, b) = \frac{1}{2m_{\text{cv}}} \sum_{i=1}^{m_{\text{cv}}} 
 
 Given some models with different degrees of polynomial features:
 ```math
-f_{w,b}(x) = w_1 x_1 + b \\ 
-f_{w,b}(x) = w_1 x_1 + w_2 x_2 + b \\
-f_{w,b}(x) = w_1 x_1 + w_2 x_2 + w_3 x_3 + b
+\begin{align}
+  f_{w,b}(x) &= w_1 x_1 + b \\
+  f_{w,b}(x) &= w_1 x_1 + w_2 x_2 + b \\
+  f_{w,b}(x) &= w_1 x_1 + w_2 x_2 + w_3 x_3 + b
+\end{align}
 ```
 
 1. Fit the parameters of each model with the training set $\vec{x}_{\text{train}}$
