@@ -39,6 +39,7 @@
     - [Train test prodcedure for linear regression](#train-test-prodcedure-for-linear-regression)
     - [Train test prodcedure for logistic regression](#train-test-prodcedure-for-logistic-regression)
     - [Cross-Validation](#cross-validation)
+    - [Diagnosing Bias and Variance](#diagnosing-bias-and-variance)
 
 ## Linear Regression
 
@@ -919,3 +920,21 @@ This way, step 1 and 2 are used to select the model parameters. Step 1 chooses w
 - For binary classification $J_{\text{cv}}(w, b)$ is the fraction of misclassified examples. 
 - Cross-validation is also used to choose layers and neurons in a neural network.
 - Important to note, when using z-score feature nomalization the mean and standard deviation from the training set is also used to normalize the test and cross-validation sets.
+
+### Diagnosing Bias and Variance
+
+High bias (underfit)
+- $J_{\text{train}}$ will be high
+- $J_{\text{train}} \approx J_{\text{cv}}$
+
+High variance (overfit)
+- $J_{\text{cv}} \gg J_{\text{train}}$
+- $J_{\text{train}}$ may be low
+
+High bias and high variance
+- $J_{\text{train}}$ will be high
+- $J_{\text{cv}} \gg J_{\text{train}}$
+
+Example for a polynomial regression model. First both the training and cross-validation error are high. The model is underfitting. Then the training error decreases, the cross-validation first decreases as well, but the end increases again. The model is overfitting. Best fit is when the cross-validation error is at minimum 4 degree.
+
+![alt text](images/degree_vs_cost.png)
