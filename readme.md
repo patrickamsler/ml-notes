@@ -935,6 +935,6 @@ High bias and high variance
 - $J_{\text{train}}$ will be high
 - $J_{\text{cv}} \gg J_{\text{train}}$
 
-Example for a polynomial regression model. First both the training and cross-validation error are high. The model is underfitting. Then the training error decreases, the cross-validation first decreases as well, but the end increases again. The model is overfitting. Best fit is when the cross-validation error is at minimum 4 degree.
+Example for a polynomial regression model. First both the training and cross-validation error are high. The model is underfitting. Then the training error decreases, the cross-validation first decreases as well, but then increases again. The model is overfitting. Best fit is when the cross-validation error is at minimum 4 degree.
 
 ![alt text](images/degree_vs_cost.png)
