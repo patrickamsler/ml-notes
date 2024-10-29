@@ -961,4 +961,4 @@ Choosing the regularization parameter $\lambda$ with cross-validation:
 
 Bias and variance as a function of regularization parameter $\lambda$. With a small $\lambda$ the model has high variance, it is overfitting. With a large $\lambda$ the model has high bias and low variance, it is underfitting.
 
-![alt text](images/lambda_vs_cost.png)
+<img src="images/lambda_vs_cost.png" height="400" />
