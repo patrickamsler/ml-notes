@@ -40,6 +40,7 @@
     - [Train test prodcedure for logistic regression](#train-test-prodcedure-for-logistic-regression)
     - [Cross-Validation](#cross-validation)
     - [Diagnosing Bias and Variance](#diagnosing-bias-and-variance)
+    - [Baseline level of performance](#baseline-level-of-performance)
 
 ## Linear Regression
 
@@ -962,3 +963,13 @@ Choosing the regularization parameter $\lambda$ with cross-validation:
 Bias and variance as a function of regularization parameter $\lambda$. With a small $\lambda$ the model has high variance, it is overfitting. With a large $\lambda$ the model has high bias and low variance, it is underfitting.
 
 <img src="images/lambda_vs_cost.png" height="400" />
+
+### Baseline level of performance
+
+The baseline performance is the performance of a simple model or a human expert. It is used to compare the performance of the machine learning model. E.g. speak recognition model with 10.6% human error.
+
+| Performance                                 | high variance | high bias | bigh bias and high variance|
+|---------------------------------------------|---------------|-----------|----------------------------|
+| Baseline performance (human)                | 10.6%         | 10.6%     | 10.6%                      |
+| Training error $J_{\text{train}}(w, b)$     | 10.8%         | 15.0%     | 15.0%                      |
+| Cross validation error $J_{\text{cv}}(w, b)$| 14.8%         | 15.5%     | 19.7%                      |
