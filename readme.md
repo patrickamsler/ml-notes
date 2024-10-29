@@ -973,3 +973,7 @@ The baseline performance is the performance of a simple model or a human expert.
 | Baseline performance (human)                | 10.6%         | 10.6%     | 10.6%                      |
 | Training error $J_{\text{train}}(w, b)$     | 10.8%         | 15.0%     | 15.0%                      |
 | Cross validation error $J_{\text{cv}}(w, b)$| 14.8%         | 15.5%     | 19.7%                      |
+
+- **high variance**: difference between baseline and training error is low, but high between training and cross-validation error.
+- **high bias**: difference between baseline and training error is high, but low between training and cross-validation error.
+- **high bias and high variance**: difference is high between both baseline and training error and training and cross-validation error.
