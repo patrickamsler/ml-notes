@@ -822,6 +822,8 @@ J(\vec{w}, b) = \frac{1}{2m} \sum_{i=1}^{m} \left( f_{\vec{w}b}(\vec{x}^{(i)}) -
 $$
 
 - $\lambda$ is the regularization parameter that controls the strength of the regularization.
+- m is the number of training examples and n the number of features or weights.
+- i refers to the training examples and j to the features or weights.
 - if lambda is zero, the regularization term has no effect.
 - the parameter $b$ is not regularized but can be included in the regularization term as well.
 - higher order features usually have larger weights, those features typically end up being more penalized by the regularization term.
@@ -935,6 +937,28 @@ High bias and high variance
 - $J_{\text{train}}$ will be high
 - $J_{\text{cv}} \gg J_{\text{train}}$
 
-Example for a polynomial regression model. First both the training and cross-validation error are high. The model is underfitting. Then the training error decreases, the cross-validation first decreases as well, but then increases again. The model is overfitting. Best fit is when the cross-validation error is at minimum 4 degree.
+Example for a polynomial regression model. First both the training and cross-validation error are high. The model is underfitting. Then the training error decreases as the degree of polynomial increases. The cross-validation cost first decreases as well, but then increases again. The model is overfitting. Best fit is when the cross-validation error is at minimum (4 degree).
 
 ![alt text](images/degree_vs_cost.png)
+
+Large $\lambda$ e.g. 10000
+- High bias and low variance
+- The model is underfitting
+- w1, w2, w3, ... wn are close to zero
+
+Small $\lambda$ e.g. 0.0001
+- High variance and low bias ($\lambda$ has no effect)
+- The model is overfitting
+- w1, w2, w3, ... wn are large 
+
+Choosing the regularization parameter $\lambda$ with cross-validation:
+
+1. try a range of $\lambda$ values e.g. 0, 0.001, 0.01, 0.1, 1, 10, 100
+2. fit the model with the training set $\vec{x}_{\text{train}}$
+3. compute the cross-validation error $J_{\text{cv}}(w, b)$ with the cross-validation set $\vec{x}_{\text{cv}}$
+4. Pick the $\lambda$ with the lowest cross-validation error
+5. Estimate the generalization error $J_{\text{test}}(\vec{w}, b)$ with the test set $\vec{x}_{\text{test}}$
+
+Bias and variance as a function of regularization parameter $\lambda$. With a small $\lambda$ the model has high variance, it is overfitting. With a large $\lambda$ the model has high bias and low variance, it is underfitting.
+
+![alt text](images/lambda_vs_cost.png)
