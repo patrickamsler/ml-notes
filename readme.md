@@ -36,11 +36,14 @@
   - [Evaluating the Model](#evaluating-the-model)
     - [The Problem of Overfitting and Underfitting](#the-problem-of-overfitting-and-underfitting)
     - [Regularization to Reduce Overfitting](#regularization-to-reduce-overfitting)
+      - [Neural network regularization](#neural-network-regularization)
     - [Train test prodcedure for linear regression](#train-test-prodcedure-for-linear-regression)
     - [Train test prodcedure for logistic regression](#train-test-prodcedure-for-logistic-regression)
     - [Cross-Validation](#cross-validation)
     - [Diagnosing Bias and Variance](#diagnosing-bias-and-variance)
     - [Baseline level of performance](#baseline-level-of-performance)
+    - [Learning Curves](#learning-curves)
+    - [Bias and Variance in Neural Networks](#bias-and-variance-in-neural-networks)
 
 ## Linear Regression
 
@@ -791,12 +794,16 @@ Each neuron only looks at a part of the prevous layer output. Often used in imag
 
 ## Evaluating the Model
 
-If the model makes large errors in predictions (underfitting):
-- Get more training examples
-- Try smaller sets of features
+If the model makes large errors in predictions (underfitting, high bias), make the model more complex:
+
 - Try getting additional features
 - Try adding polynomial features
 - Try decreasing 𝜆
+
+If the model fits the data to well (overfitting, high variance), make the model simpler:
+
+- Get more training examples
+- Try smaller sets of features
 - Try increasing 𝜆
 
 ### The Problem of Overfitting and Underfitting
@@ -838,6 +845,18 @@ $$
 ![alt text](images/cost_function_with_regularization.png)
 
 The cost function (red line) increases the overall cost for large values of $w$.
+
+#### Neural network regularization
+
+```python
+lam = 0.01
+
+layer_1 = Dense(units=25, activation="relu", kernel_regularizer=L2(lam))
+layer_2 = Dense(units=15, activation="relu", kernel_regularizer=L2(lam))
+layer_3 = Dense(units=1, activation="sigmoid", kernel_regularizer=L2(lam))
+
+model = Sequential([layer_1, layer_2, layer_3])
+```
 
 
 ### Train test prodcedure for linear regression
@@ -977,3 +996,21 @@ The baseline performance is the performance of a simple model or a human expert.
 - **high variance**: difference between baseline and training error is low, but high between training and cross-validation error.
 - **high bias**: difference between baseline and training error is high, but low between training and cross-validation error.
 - **high bias and high variance**: difference is high between both baseline and training error and training and cross-validation error.
+
+### Learning Curves
+
+Learning curves are used to diagnose bias and variance, by plotting the training and cross-validation error as a function of the training set size.
+
+Jtrain is low for small training set sizes, e.g. with only two data points the model can fit the data perfectly. The training error increases as the training set size increases.
+
+Jcv is high for small training set sizes, the model does not generalize well. The cross-validation error decreases as the training set size increases.
+
+<img src="images/training_set_size_vs_error.png" height="300" />
+
+The curve flattens out. This shows that if a learining algorithm has high bias, getting more training data will not help but for high variance, getting more training could possibly be helpful.
+
+### Bias and Variance in Neural Networks
+
+Large neural networks are low bias machines, the fit complex functions very well. If Jtrain is high try a larger network. If Jcv is high as well try to get more training data.
+
+A larger neural network will usually do as well or better than a smaller one so long as regularization is chosen correctly. But larger networks are more computationally expensive.
