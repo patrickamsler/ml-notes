@@ -44,6 +44,9 @@
     - [Baseline level of performance](#baseline-level-of-performance)
     - [Learning Curves](#learning-curves)
     - [Bias and Variance in Neural Networks](#bias-and-variance-in-neural-networks)
+  - [Machine Learining Development Process](#machine-learining-development-process)
+    - [Data Augmentation](#data-augmentation)
+    - [Data Synthesis](#data-synthesis)
 
 ## Linear Regression
 
@@ -1011,6 +1014,22 @@ The curve flattens out. This shows that if a learining algorithm has high bias, 
 
 ### Bias and Variance in Neural Networks
 
-Large neural networks are low bias machines, the fit complex functions very well. If Jtrain is high try a larger network. If Jcv is high as well try to get more training data.
+Large neural networks are low bias machines, they fit complex functions very well. If Jtrain is high try a larger network. If Jcv is high as well try to get more training data.
 
 A larger neural network will usually do as well or better than a smaller one so long as regularization is chosen correctly. But larger networks are more computationally expensive.
+
+## Machine Learining Development Process
+
+Iterative process to develop a machine learning model:
+
+1. Choose architecture (model, data, features)
+2. Train the model
+3. Diagnostics (bias, variance and error analysis)
+
+### Data Augmentation
+
+Data augmentation is a technique used to increase the size of the training set by applying transformations to the data. It is used to reduce overfitting and improve the generalization of the model. E.g. flipping, rotating, scaling, cropping, and changing the brightness of images.
+
+### Data Synthesis
+
+Data synthesis is a technique using artificial data inputs to create new data. It is used when the training data is limited. E.g. generating new images of letters and numbers for OCR.
