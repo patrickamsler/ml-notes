@@ -47,6 +47,7 @@
   - [Machine Learining Development Process](#machine-learining-development-process)
     - [Data Augmentation](#data-augmentation)
     - [Data Synthesis](#data-synthesis)
+    - [Transfer Learning](#transfer-learning)
 
 ## Linear Regression
 
@@ -1033,3 +1034,11 @@ Data augmentation is a technique used to increase the size of the training set b
 ### Data Synthesis
 
 Data synthesis is a technique using artificial data inputs to create new data. It is used when the training data is limited. E.g. generating new images of letters and numbers for OCR.
+
+### Transfer Learning
+
+Transfer learning is a technique where a model trained on one task with large amount of data is used as a starting point (supervised pretraining). This model and its parameters is then copied and used as a starting point for a new task. The model is then fine-tuned on the new task. 
+
+Pre-trained models are available for image recognition, speech recognition, and natural language processing.
+
+You can use an open source pre-trained neuronal network and just train the last layer for your specific task or use it as a starting point and train all parameters of all layers.
