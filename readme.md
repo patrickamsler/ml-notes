@@ -14,6 +14,7 @@
       - [Mean Normalization](#mean-normalization)
       - [Z-Score Normalization](#z-score-normalization)
     - [Feature Engineering](#feature-engineering)
+      - [Feature Selection](#feature-selection)
     - [Polynomial Regression](#polynomial-regression)
   - [Classification with Logistic Regression](#classification-with-logistic-regression)
     - [Sigmoid Function](#sigmoid-function)
@@ -320,6 +321,20 @@ model with new feature:
 $$
 f_{wb}(\vec{x}) = w_1x_1 + w_2x_2 + w_3x_3 + b
 $$
+
+#### Feature Selection
+
+For categorical data, the chi square test can be used to select features. 
+
+During feature selection, each feature is tested with the chi-square statistic. Features with high chi-square scores are selected as they show a significant association with the target variable. 
+
+$$
+\chi^2 = \sum \frac{(O - E)^2}{E}
+$$
+
+- $O$: Observed frequency, which is the actual frequency of the feature.
+- $E$: Expected frequency, the count that would be expecte if there is no association between the feature and the target variable.
+- The higher the value of $\chi^2$, the more dependent the feature is on the target variable.
 
 ### Polynomial Regression
 
