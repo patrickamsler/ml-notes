@@ -1048,28 +1048,28 @@ E.g. A classifer for a rare disease. The model should have a high recall, it sho
 | Negative           | FP       | TN       |
 
 - **Precision**: The ratio of correctly predicted positive **observations** to the total predicted positives.
-  $$
+  ```math
   \text{Precision} = \frac{TP}{TP + FP}
-  $$
+  ```
 
   E.g. of all patients that tested positive, how many actually have the disease. If false positive is high, we predict a lot of patients that do not have the disease.
 
-  $$
+  ```math
   \text{Precision} = \frac{15}{15 + 5} = 0.75
-  $$
+  ```
 
   The precision of 0.75, means that 75% of the patients that tested positive actually have the disease.
 
 - **Recall (Sensitivity)**: The ratio of correctly predicted positive observations to all observations in the actual class.
-  $$
+  ```math
   \text{Recall} = \frac{TP}{TP + FN}
-  $$
+  ```
 
   E.g. of all patients that have the disease, how many did we correctly predict. If fals negative is high, we miss a lot of patients that have the disease.
 
-  $$
+  ```math
   \text{Recall} = \frac{15}{15 + 10} = 0.6
-  $$
+  ```
 
   The recall of 0.6, means that 60% of the patients that have the disease were correctly predicted.
 
@@ -1089,9 +1089,9 @@ The precision-recall curve shows the trade off between precision and recall for 
 
 - **F1 Score**: Combines precision and recall into a single metric. It is the harmonic mean of precision and recall. It is used when the classes are imbalanced.
 
-  $$
-  \text{F1 Score} = 2 \times \frac{\text{Precision} \times \text{Recall}}{\text{Precision} + \text{Recall}}
-  $$
+```math
+\text{F1 Score} = 2 \times \frac{\text{Precision} \times \text{Recall}}{\text{Precision} + \text{Recall}}
+```
 
 It can be used to compare different models. A model with a high F1 score has a good balance between precision and recall. 
 
