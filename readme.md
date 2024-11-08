@@ -45,6 +45,8 @@
     - [Baseline level of performance](#baseline-level-of-performance)
     - [Learning Curves](#learning-curves)
     - [Bias and Variance in Neural Networks](#bias-and-variance-in-neural-networks)
+    - [Precision and Recall](#precision-and-recall)
+      - [Trade off between precision and recall](#trade-off-between-precision-and-recall)
   - [Machine Learining Development Process](#machine-learining-development-process)
     - [Data Augmentation](#data-augmentation)
     - [Data Synthesis](#data-synthesis)
@@ -383,9 +385,9 @@ $$
 
 The model predicts the probability that an instance belongs to the positive class. The predicted probability is then converted into a binary output using a threshold value.
 
-$$
+```math
 \hat{y} = \begin{cases} 1 & \text{if } P(y=1|\vec{x}) \geq 0.5 \\ 0 & \text{otherwise} \end{cases}
-$$
+```
 
 For a logistic regression model, $z = \vec{w} \cdot \vec{x} + b$.
 
@@ -1033,6 +1035,73 @@ The curve flattens out. This shows that if a learining algorithm has high bias, 
 Large neural networks are low bias machines, they fit complex functions very well. If Jtrain is high try a larger network. If Jcv is high as well try to get more training data.
 
 A larger neural network will usually do as well or better than a smaller one so long as regularization is chosen correctly. But larger networks are more computationally expensive.
+
+### Precision and Recall
+
+In a skews dataset, e.g. 99% of the data is class 0 and 1% is class 1, accuracy is not a good metric. A model that always predicts class 0 will have an accuracy of 99%. Precision and recall are better metrics.
+
+E.g. A classifer for a rare disease. The model should have a high recall, it should not miss any positive cases. The precision should also be high, it should not predict a positive case when it is not.
+
+| Actual \ Predicted | Positive | Negative |
+|--------------------|----------|----------|
+| Positive           | TP       | FN       |
+| Negative           | FP       | TN       |
+
+- **Precision**: The ratio of correctly predicted positive **observations** to the total predicted positives.
+  $$
+  \text{Precision} = \frac{TP}{TP + FP}
+  $$
+
+  E.g. of all patients that tested positive, how many actually have the disease. If false positive is high, we predict a lot of patients that do not have the disease.
+
+  $$
+  \text{Precision} = \frac{15}{15 + 5} = 0.75
+  $$
+
+  The precision of 0.75, means that 75% of the patients that tested positive actually have the disease.
+
+- **Recall (Sensitivity)**: The ratio of correctly predicted positive observations to all observations in the actual class.
+  $$
+  \text{Recall} = \frac{TP}{TP + FN}
+  $$
+
+  E.g. of all patients that have the disease, how many did we correctly predict. If fals negative is high, we miss a lot of patients that have the disease.
+
+  $$
+  \text{Recall} = \frac{15}{15 + 10} = 0.6
+  $$
+
+  The recall of 0.6, means that 60% of the patients that have the disease were correctly predicted.
+
+#### Trade off between precision and recall
+
+Logist regression:
+
+```math
+\hat{y} = \begin{cases} 1 & \text{if } P(y=1|\vec{x}) \geq 0.5 \\ 0 & \text{otherwise} \end{cases}
+```
+
+If the threshold is increased to e.g. 0.7, the precision will increase but we miss some positive cases, the recall will decrease.
+
+The precision-recall curve shows the trade off between precision and recall for different thresholds. The threshold for an algorithm is often chosen manually based on the requirements of the problem.
+
+![alt text](images/precision_recall_curve.png)
+
+- **F1 Score**: Combines precision and recall into a single metric. It is the harmonic mean of precision and recall. It is used when the classes are imbalanced.
+
+  $$
+  \text{F1 Score} = 2 \times \frac{\text{Precision} \times \text{Recall}}{\text{Precision} + \text{Recall}}
+  $$
+
+It can be used to compare different models. A model with a high F1 score has a good balance between precision and recall. 
+
+| Algorithm  | Precision (P) | Recall (R) | F1 Score |
+|------------|----------------|------------|----------|
+| Algorithm 1| 0.5            | 0.4        | 0.44     |
+| Algorithm 2| 0.7            | 0.1        | 0.18     |
+| Algorithm 3| 0.02           | 1.0        | 0.04     |
+
+Example: Algorithm 2 has a high precision but a low recall, algorithm 3 has a high recall but a low precision. Algorithm 1 has a good balance between precision and recall.
 
 ## Machine Learining Development Process
 
