@@ -47,6 +47,7 @@
     - [Bias and Variance in Neural Networks](#bias-and-variance-in-neural-networks)
     - [Precision and Recall](#precision-and-recall)
       - [Trade off between precision and recall](#trade-off-between-precision-and-recall)
+      - [F1 Score](#f1-score)
   - [Machine Learining Development Process](#machine-learining-development-process)
     - [Data Augmentation](#data-augmentation)
     - [Data Synthesis](#data-synthesis)
@@ -1087,7 +1088,9 @@ The precision-recall curve shows the trade off between precision and recall for 
 
 ![alt text](images/precision_recall_curve.png)
 
-**F1 Score**: Combines precision and recall into a single metric. It is the harmonic mean of precision and recall. It is used when the classes are imbalanced.
+#### F1 Score 
+
+The F1 score combines precision and recall into a single metric. It is the harmonic mean of precision and recall. It is used when the classes are imbalanced.
 
 ```math
 \text{F1 Score} = 2 \times \frac{\text{Precision} \times \text{Recall}}{\text{Precision} + \text{Recall}}
