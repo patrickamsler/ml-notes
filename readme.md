@@ -1047,31 +1047,31 @@ E.g. A classifer for a rare disease. The model should have a high recall, it sho
 | Positive           | TP       | FN       |
 | Negative           | FP       | TN       |
 
-**Precision**: The ratio of correctly predicted positive **observations** to the total predicted positives.
-```math
-\text{Precision} = \frac{TP}{TP + FP}
-```
+- **Precision**: The ratio of correctly predicted positive **observations** to the total predicted positives.
+  ```math
+  \text{Precision} = \frac{TP}{TP + FP}
+  ```
 
-E.g. of all patients that tested positive, how many actually have the disease. If false positive is high, we predict a lot of patients that do not have the disease.
+  E.g. of all patients that tested positive, how many actually have the disease. If false positive is high, we predict a lot of patients that do not have the disease.
 
-```math
-\text{Precision} = \frac{15}{15 + 5} = 0.75
-```
+  ```math
+  \text{Precision} = \frac{15}{15 + 5} = 0.75
+  ```
 
-The precision of 0.75, means that 75% of the patients that tested positive actually have the disease.
+  The precision of 0.75, means that 75% of the patients that tested positive actually have the disease.
 
-**Recall (Sensitivity)**: The ratio of correctly predicted positive observations to all observations in the actual class.
-```math
-\text{Recall} = \frac{TP}{TP + FN}
-```
+- **Recall (Sensitivity)**: The ratio of correctly predicted positive observations to all observations in the actual class.
+  ```math
+  \text{Recall} = \frac{TP}{TP + FN}
+  ```
 
-E.g. of all patients that have the disease, how many did we correctly predict. If fals negative is high, we miss a lot of patients that have the disease.
+  E.g. of all patients that have the disease, how many did we correctly predict. If fals negative is high, we miss a lot of patients that have the disease.
 
-```math
-\text{Recall} = \frac{15}{15 + 10} = 0.6
-```
+  ```math
+  \text{Recall} = \frac{15}{15 + 10} = 0.6
+  ```
 
-The recall of 0.6, means that 60% of the patients that have the disease were correctly predicted.
+  The recall of 0.6, means that 60% of the patients that have the disease were correctly predicted.
 
 #### Trade off between precision and recall
 
