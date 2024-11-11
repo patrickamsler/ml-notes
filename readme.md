@@ -1074,6 +1074,19 @@ E.g. A classifer for a rare disease. The model should have a high recall, it sho
 
   The recall of 0.6, means that 60% of the patients that have the disease were correctly predicted.
 
+- **Accuracy**: The ratio of correctly predicted observations to the total observations.
+  ```math
+  \text{Accuracy} = \frac{TP + TN}{TOTAL} = \frac{TP + TN}{TP + TN + FP + FN}
+  ```
+
+  E.g. of all patients, how many did we correctly predict.
+
+  ```math
+  \text{Accuracy} = \frac{15 + 5}{15 + 5 + 10 + 20} = 0.5
+  ```
+
+  The accuracy of 0.5, means that 50% of the patients were correctly predicted. Accuracy pimarily measures the number of correct predictions and is not a good metric for skewed datasets.
+
 #### Trade off between precision and recall
 
 Logist regression:
