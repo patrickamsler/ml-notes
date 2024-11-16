@@ -52,6 +52,14 @@
     - [Data Augmentation](#data-augmentation)
     - [Data Synthesis](#data-synthesis)
     - [Transfer Learning](#transfer-learning)
+  - [Decision Trees](#decision-trees)
+    - [Entropy as a measure of impurity](#entropy-as-a-measure-of-impurity)
+    - [Information Gain](#information-gain)
+    - [Decision Tree Learning Algorithm (Recursive Splitting)](#decision-tree-learning-algorithm-recursive-splitting)
+    - [Features with Multiple Classes](#features-with-multiple-classes)
+      - [One-Hot Encoding](#one-hot-encoding)
+    - [Continuous on continuous variables](#continuous-on-continuous-variables)
+    - [Regression with Decision Trees](#regression-with-decision-trees)
 
 ## Linear Regression
 
@@ -423,7 +431,7 @@ $$
 
 ### Cost Function for Logistic Regression
 
-The squared error cost function used for linear regression is convex. Used with the sigmoid function it because non-convex, leading to multiple local minima. For logistic regression, the cost function is the log loss function, which is convex.
+The squared error cost function used for linear regression is convex. However, when used with the sigmoid function, it becomes non-convex, leading to multiple local minima. For logistic regression, the cost function is the log loss function, which is convex.
 
 - Loss is a measure of the difference of a single example to its target value while the
 - Cost is a measure of the losses over the training set.
@@ -892,12 +900,12 @@ J(\vec{w}, b) = \frac{1}{2m} \sum_{i=1}^{m} \left( f_{\vec{w}b}(\vec{x}^{(i)}) -
 
 Compute the test error (MSE):
 ```math
-J_{\text{test}}(\vec{w}, b) = \frac{1}{2m_{\text{test}}} \left[ \sum_{i=1}^{m_{\text{test}}} \left( f_{\vec{w}b}(\vec{x}^{(i)}_{\text{test}}) - y^{(i)}_{\text{test}} \right)^2 \right]
+J_{\text{test}}(\vec{w}, b) = \frac{1}{2m_{\text{test}}} \sum_{i=1}^{m_{\text{test}}} \left( f_{\vec{w}b}(\vec{x}^{(i)}_{\text{test}}) - y^{(i)}_{\text{test}} \right)^2
 ```
 
 Compute the training error (MSE):
 ```math
-J_{\text{train}}(\vec{w}, b) = \frac{1}{2m_{\text{train}}} \left[ \sum_{i=1}^{m_{\text{train}}} \left( f_{\vec{w}b}(\vec{x}^{(i)}_{\text{train}}) - y^{(i)}_{\text{train}} \right)^2 \right]
+J_{\text{train}}(\vec{w}, b) = \frac{1}{2m_{\text{train}}} \sum_{i=1}^{m_{\text{train}}} \left( f_{\vec{w}b}(\vec{x}^{(i)}_{\text{train}}) - y^{(i)}_{\text{train}} \right)^2
 ```
 
 - If the model is overfitting, the training error will be low and the test error will be hight.
@@ -1142,3 +1150,155 @@ Transfer learning is a technique where a model trained on one task with large am
 Pre-trained models are available for image recognition, speech recognition, and natural language processing.
 
 You can use an open source pre-trained neuronal network and just train the last layer for your specific task or use it as a starting point and train all parameters of all layers.
+
+## Decision Trees
+
+Decision trees are used for classification and regression. They are easy to interpret and visualize. They can handle both numerical and categorical data.
+
+A decision tree is a tree where each node represents a feature (ear shape, face shape, whiskers), each branch represents a decision, and each leaf represents an outcome.
+
+![alt text](images/desicion_tree.png)
+
+There are multiple possible decision trees for a dataset. The job of the learining algorithm is to find the best tree that fits the training data and generalizes well to new, unseen data.
+
+**Decision 1**: How to split the data at each node. 
+- The goal is to maximize purity (or minimize impurity) at each node. Ideally, if there where only only two classes, one class would be in one leaf and the other class in the other leaf.
+
+**Decision 2**: When to stop splitting the data. 
+- When a node pure, 100% of the data belongs to one class
+- When the tree reaches a maximum depth.
+- When imporvements in purity score are below a certain threshold.
+- When then number of samples in a node is below a certain threshold.
+
+### Entropy as a measure of impurity
+
+**Entropy** is a measure of impurity in a dataset. 
+
+**Purity** is the opposite of impurity. A dataset is pure if all the data belongs to the same class. A dataset is impure if the data is evenly distributed among the classes.
+
+- $p_1$ is the proportion of examples in class. E.g. fraction of examples that are cats.
+- $p_0$ is the proportion of examples that or not in the class. E.g. fraction of examples that are not cats.
+
+```math
+p_0 = 1 - p_1
+```
+
+```math
+H(p_1) = -p_1 \log_2(p_1) - p_0 \log_2(p_0)
+```
+
+![alt text](images/entropy_function.png)
+
+Examples:
+
+- 80% of the examples are cats and 20% are not cats: p1 = 0.8 and H(p1) = 0.72
+- 50% of the examples are cats and 50% are not cats: p1 = 0.5 and H(p1) = 1.0
+- If either all the examples are cats or none of the examples are cats, the entropy is 0.
+
+### Information Gain
+
+**Information gain** is the reduction in entropy or impurity. The goal is to reduce the entropy at each node.
+
+```math
+\text{Information Gain} = \text{Entropy(parent)} - \text{Weighted Average Entropy(children)}
+```
+
+![alt text](images/information_gain.png)
+
+- $p_1^{root}$ is the proportion of positive examples at the root node.
+- $p_1^{left}$ and $p_1^{right}$ are the proportions of examples in class 1 at the left and right child nodes. E.g. fraction of examples that are cats.
+- $w^{left}$ and $w^{right}$ are the weights of the left and right child nodes. E.g. $w^{left}$ is the samples in the left child node divided by the total number of samples from the parent node.
+- $H(p_1)$ is the entropy
+
+```math
+\text{Information Gain} = H(p_1^{root}) - (w^{left} H(p_1^{left}) + w^{right} H(p_1^{right}))
+```
+
+### Decision Tree Learning Algorithm (Recursive Splitting)
+
+1. Start with all examples at the root node
+2. Calculate information gain for all possible features, and pick the one with the highest information gain
+3. Split dataset according to selected feature, and create left and right branches of the tree
+4. Keep repeating splitting process until stopping criteria is met:
+      - When a node is 100% one class
+      - When splitting a node will result in the tree exceeding a maximum depth
+      - Information gain from additional splits is less than threshold
+      - When number of examples in a node is below a threshold
+
+After deciding on the root node, the algorithm is recursively applied to each child node. Each child node repeats the process of selecting the feature on a subset of the data from the parent node.
+
+### Features with Multiple Classes
+
+Features with multiple classes create multiple branches in the tree. E.g. ear shape (pointy, round, floppy) creates three sub branches.
+
+| Ear shape | Face shape | Whiskers | Cat |
+|-----------|------------|----------|-----|
+| Pointy    | Round      | Present  | 1   |
+| Floppy    | Round      | Absent   | 0   |
+| Oval      | Round      | Absent   | 1   |
+| Floppy    | Not round  | Absent   | 0   |
+
+#### One-Hot Encoding
+
+One-hot encoding converts a feature with multiple classes into multiple binary features.
+
+Example for ear shape with three classes (pointy, round, floppy):
+
+| Ear shape | Face shape | Whiskers | Pointy | Floppy | Oval   | Cat |
+|-----------|------------|----------|--------|--------|--------|-----|
+| Pointy    | Round      | Present  | 1      | 0      | 0      | 1   |
+| Floppy    | Round      | Absent   | 0      | 1      | 0      | 0   | 
+| Oval      | Round      | Absent   | 0      | 0      | 1      | 1   |
+| Floppy    | Not round  | Absent   | 0      | 1      | 0      | 0   |
+
+If a categorical feature has k classes, one-hot encoding will create k binary features.
+
+With one-hot encoding, the decision tree algorithm can handle features with multiple classes with a binary split.
+
+### Continuous on continuous variables
+
+Continous features can have any value in a range. The decision tree algorithm tries different split points to find the best split with the highest information gain.
+
+![alt text](images/information_gain_continuous.png)
+
+Split points are typically choosen by sorting the unique values and then calculate the average of two consecutive values.
+
+```math
+x_{\text{split}} = \frac{x_i + x_{i+1}}{2}, \quad \text{for } i \in \{1, 2, \ldots, n-1\}.
+```
+
+### Regression with Decision Trees
+
+If the value to predict is continuous, the decision tree is used for regression. The process for the learning algorithm is the same as for classification, but the impurity measure is different.
+
+In the example instead of trying to predict cat or not cat, the decision tree tries to predict the weight of the animal. For unseen data, the decision tree will predict the weight of the animal based on the average weight of the animals in the leaf node.
+
+![alt text](images/desicion_tree_regression.png)
+
+For regression, instead of entropy, the variance is used as a measure of impurity. The goal is to minimize the variance of the target variable at each node.
+
+![alt text](images/descition_tree_splint_regression.png)
+
+The data at a node is split to minimize the variance of the target variable. The variance is calculated as the average of the squared differences between the target variable and the mean of the target variable.
+
+```math
+\text{Variance} = \frac{1}{n} \sum_{i=1}^{n} (y_i - \bar{y})^2
+```
+
+The split enusres that each leaf node has a lower variance than the parent node.
+
+```math
+\text{Variance}_{parent} > \text{Weighted Variance}_{children}
+```
+
+Weighted variance of the children is the average of the variance of the left and right child nodes. $n$ is the number of examples in the parent node, $n_{\text{left}}$ and $n_{\text{right}}$ are the number of examples in the left and right child nodes.
+
+```math
+\text{Weighted Variance}_{childeren} = \frac{n_{\text{left}}}{n} \text{Variance}_{left} + \frac{n_{\text{right}}}{n} \text{Variance}_{right}
+```
+
+Calculate the variance reduction:
+  
+```math
+\text{Variance Reduction} = \text{Variance}_{parent} - \text{Weighted Variance}_{children}
+```
