@@ -60,6 +60,7 @@
       - [One-Hot Encoding](#one-hot-encoding)
     - [Continuous on continuous variables](#continuous-on-continuous-variables)
     - [Regression with Decision Trees](#regression-with-decision-trees)
+    - [Tree Ensembles](#tree-ensembles)
 
 ## Linear Regression
 
@@ -1157,7 +1158,7 @@ Decision trees are used for classification and regression. They are easy to inte
 
 A decision tree is a tree where each node represents a feature (ear shape, face shape, whiskers), each branch represents a decision, and each leaf represents an outcome.
 
-![alt text](images/desicion_tree.png)
+![alt text](images/decision_tree.png)
 
 There are multiple possible decision trees for a dataset. The job of the learning algorithm is to find the best tree that fits the training data and generalizes well to new, unseen data.
 
@@ -1273,11 +1274,11 @@ If the value to predict is continuous, the decision tree is used for regression.
 
 In the example instead of trying to predict cat or not cat, the decision tree tries to predict the weight of the animal. For unseen data, the decision tree will predict the weight of the animal based on the average weight of the animals in the leaf node.
 
-![alt text](images/desicion_tree_regression.png)
+![alt text](images/decision_tree_regression.png)
 
 For regression, instead of entropy, the variance is used as a measure of impurity. The goal is to minimize the variance of the target variable at each node.
 
-![alt text](images/descition_tree_splint_regression.png)
+![alt text](images/decision_tree_splint_regression.png)
 
 The data at a node is split to minimize the variance of the target variable. The variance is calculated as the average of the squared differences between the target variable and the mean of the target variable.
 
@@ -1302,3 +1303,9 @@ Calculate the variance reduction:
 ```math
 \text{Variance Reduction} = \text{Variance}_{parent} - \text{Weighted Variance}_{children}
 ```
+
+### Tree Ensembles
+
+One weakness of using a single decision tree is that it can be sensitive small changes in the training data. Small changes in the data could lead to completely different tree. One solution is to use multiple decision trees and combine their predictions.
+
+![alt text](images/decision_tree_ensemble.png)
