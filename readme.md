@@ -58,7 +58,7 @@
     - [Decision Tree Learning Algorithm (Recursive Splitting)](#decision-tree-learning-algorithm-recursive-splitting)
     - [Features with Multiple Classes](#features-with-multiple-classes)
       - [One-Hot Encoding](#one-hot-encoding)
-    - [Continuous on continuous variables](#continuous-on-continuous-variables)
+    - [Splitting Continuous Variables](#splitting-continuous-variables)
     - [Regression with Decision Trees](#regression-with-decision-trees)
     - [Tree Ensembles](#tree-ensembles)
 
@@ -1256,9 +1256,9 @@ If a categorical feature has k classes, one-hot encoding will create k binary fe
 
 With one-hot encoding, the decision tree algorithm can handle features with multiple classes with a binary split.
 
-### Continuous on continuous variables
+### Splitting Continuous Variables
 
-Continous features can have any value in a range. The decision tree algorithm tries different split points to find the best split with the highest information gain.
+Continuous features can have any value in a range. The decision tree algorithm tries different split points to find the best split with the highest information gain.
 
 ![alt text](images/information_gain_continuous.png)
 
