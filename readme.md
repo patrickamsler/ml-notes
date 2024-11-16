@@ -1159,15 +1159,15 @@ A decision tree is a tree where each node represents a feature (ear shape, face 
 
 ![alt text](images/desicion_tree.png)
 
-There are multiple possible decision trees for a dataset. The job of the learining algorithm is to find the best tree that fits the training data and generalizes well to new, unseen data.
+There are multiple possible decision trees for a dataset. The job of the learning algorithm is to find the best tree that fits the training data and generalizes well to new, unseen data.
 
 **Decision 1**: How to split the data at each node. 
-- The goal is to maximize purity (or minimize impurity) at each node. Ideally, if there where only only two classes, one class would be in one leaf and the other class in the other leaf.
+- The goal is to maximize purity (or minimize impurity) at each node. Ideally, if there where only two classes, one class would be in one leaf and the other class in the other leaf.
 
 **Decision 2**: When to stop splitting the data. 
-- When a node pure, 100% of the data belongs to one class
+- When a node is considered pure, 100% of the data belongs to one class
 - When the tree reaches a maximum depth.
-- When imporvements in purity score are below a certain threshold.
+- When improvements in purity score are below a certain threshold.
 - When then number of samples in a node is below a certain threshold.
 
 ### Entropy as a measure of impurity
