@@ -61,6 +61,10 @@
     - [Splitting Continuous Variables](#splitting-continuous-variables)
     - [Regression with Decision Trees](#regression-with-decision-trees)
     - [Tree Ensembles](#tree-ensembles)
+      - [Bagging (Bootstrap Aggregating)](#bagging-bootstrap-aggregating)
+      - [Random Forest Algorithm](#random-forest-algorithm)
+      - [XGBoost](#xgboost)
+      - [Decision Trees vs Neural Networks](#decision-trees-vs-neural-networks)
 
 ## Linear Regression
 
@@ -1306,6 +1310,59 @@ Calculate the variance reduction:
 
 ### Tree Ensembles
 
-One weakness of using a single decision tree is that it can be sensitive small changes in the training data. Small changes in the data could lead to completely different tree. One solution is to use multiple decision trees and combine their predictions.
+One weakness of using a single decision tree is that it can be sensitive to small changes in the training data. Small changes in the data could lead to a completely different tree. One solution is to use multiple decision trees and combine their predictions.
 
 ![alt text](images/decision_tree_ensemble.png)
+
+Hyperparameters to tune:
+- Number of trees $B$
+- Number of features $k$
+- Maximum depth of the tree
+- Minimum number of samples required to split a node
+- Minimum number of samples required at each leaf node
+
+#### Bagging (Bootstrap Aggregating)
+
+Bagging uses sampling with replacement (bootstrap) to create multiple datasets. Each dataset contains a subset of the examples and features. And example can be used multiple times in the dataset. Each dataset is used to train a another decision tree.
+
+- Given training set of size 𝑚
+  - For $b$ = 1 to $B$:
+    - Use sampling with replacement to create a new training set of size 𝑚
+    - Train a decision tree on the new dataset
+
+$B$ is typically in the range of 64 to 128.
+
+#### Random Forest Algorithm
+
+In addition to bagging, Random Forest introduces randomness. At each node, when choosing a feature to use to split, if $n$ features are available, pick a random subset of $k < n$ features and allow the algorithm to only choose from that subset of features.
+
+- Given training set of size 𝑚
+  - For $b$ = 1 to $B$:
+    - Use sampling with replacement to create a new training set of size 𝑚
+    - Train a decision tree on the new dataset, but at each node:
+      - Randomly select a subset of features of size $k$. The best split is chosen from this subset of features.
+      - Choose the best feature to split on from the subset of features
+
+$N$ is typically the square root of the number of features. Used when the number of features is large.
+
+#### XGBoost
+
+XGBoost is a popular implementation of the gradient boosting algorithm. XGBoost builds upon the gradient boosting framework, which constructs an ensemble of decision trees sequentially. Each new tree aims to correct the errors made by the previous ones.
+
+- Given training set of size 𝑚
+  - For $b$ = 1 to $B$:
+    - Instead of sampling with replacement, the algorithm samples the examples with weights. Examples that are misclassified have a higher weight.
+    - Train a decision tree on the new dataset.
+
+#### Decision Trees vs Neural Networks
+
+Decision Trees:
+- Work well on tabular (structured) data
+- Not recommended for unstructured data (images, audio, text)
+- Decision tree models are fast to train and easy to interpret
+
+Neural Networks:
+- Work well on all types of data, including tabular (structured) and unstructured data (images, audio, text)
+- Maybe slow to train and require a lot of data
+- Work with transfer learning and pre-trained models
+- When building a system of multiple models working together, it might be easier to string together multiple neural networks
