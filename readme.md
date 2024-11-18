@@ -63,6 +63,7 @@
     - [Tree Ensembles](#tree-ensembles)
       - [Bagging (Bootstrap Aggregating)](#bagging-bootstrap-aggregating)
       - [Random Forest Algorithm](#random-forest-algorithm)
+      - [Gradient Boosting](#gradient-boosting)
       - [XGBoost](#xgboost)
       - [Decision Trees vs Neural Networks](#decision-trees-vs-neural-networks)
 
@@ -1213,7 +1214,7 @@ Examples:
 - $p_1^{root}$ is the proportion of positive examples at the root node.
 - $p_1^{left}$ and $p_1^{right}$ are the proportions of examples in class 1 at the left and right child nodes. E.g. fraction of examples that are cats.
 - $w^{left}$ and $w^{right}$ are the weights of the left and right child nodes. E.g. $w^{left}$ is the samples in the left child node divided by the total number of samples from the parent node.
-- $H(p_1)$ is the entropy
+- $H(p_1)$ is the entropy at the node.
 
 ```math
 \text{Information Gain} = H(p_1^{root}) - (w^{left} H(p_1^{left}) + w^{right} H(p_1^{right}))
@@ -1224,7 +1225,7 @@ Examples:
 1. Start with all examples at the root node
 2. Calculate information gain for all possible features, and pick the one with the highest information gain
 3. Split dataset according to selected feature, and create left and right branches of the tree
-4. Keep repeating splitting process until stopping criteria is met:
+4. Keep repeating the splitting process until a stopping criteria is met:
       - When a node is 100% one class
       - When splitting a node will result in the tree exceeding a maximum depth
       - Information gain from additional splits is less than threshold
@@ -1340,19 +1341,25 @@ In addition to bagging, Random Forest introduces randomness. At each node, when 
   - For $b$ = 1 to $B$:
     - Use sampling with replacement to create a new training set of size 𝑚
     - Train a decision tree on the new dataset, but at each node:
-      - Randomly select a subset of features of size $k$. The best split is chosen from this subset of features.
+      - Randomly select a subset of features of size $k$.
       - Choose the best feature to split on from the subset of features
 
-$N$ is typically the square root of the number of features. Used when the number of features is large.
+$k$ is typically the square root of the number of features. Used when the number of features is large.
+
+#### Gradient Boosting
+The algorithm iteratively adds trees to correct the errors from the previous trees, each new tree aims to correct the errors made by the previous ones. Instead of sampling with replacement, the algorithm samples the examples with weights. Examples that are misclassified have a higher weight.
+
+- Start with a constant model that predicts the mean of the target variable for regression tasks or the most frequent class for classification tasks.
+- For $b$ = 1 to $B$:
+  - Calculate the difference between the actual target values and the current model’s predictions. These differences are known as residuals.
+  - Train a new decision tree to predict these residuals. This tree focuses on the errors made by the previous trees
+  - Add the new tree to the existing ensemble with a scaling factor (learning rate) to control the contribution of the new tree.
+
+The final model is the sum of the initial model and all the trees added during the iterations.
 
 #### XGBoost
 
 XGBoost is a popular implementation of the gradient boosting algorithm. XGBoost builds upon the gradient boosting framework, which constructs an ensemble of decision trees sequentially. Each new tree aims to correct the errors made by the previous ones.
-
-- Given training set of size 𝑚
-  - For $b$ = 1 to $B$:
-    - Instead of sampling with replacement, the algorithm samples the examples with weights. Examples that are misclassified have a higher weight.
-    - Train a decision tree on the new dataset.
 
 #### Decision Trees vs Neural Networks
 
