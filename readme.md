@@ -444,9 +444,9 @@ The squared error cost function used for linear regression is convex. However, w
 
 Loss function:
 
-$$
-L(f_{\mathbf{w},b}(\mathbf{x}^{(i)}), y^{(i)}) = (-y^{(i)} \log\left(f_{\mathbf{w},b}\left( \mathbf{x}^{(i)} \right) \right) - \left( 1 - y^{(i)}\right) \log \left( 1 - f_{\mathbf{w},b}\left( \mathbf{x}^{(i)} \right) \right)
-$$
+```math
+L(f_{\mathbf{w},b}(\mathbf{x}^{(i)}), y^{(i)}) = -y^{(i)} \log\left(f_{\mathbf{w},b}\left( \mathbf{x}^{(i)} \right) \right) - \left( 1 - y^{(i)}\right) \log \left( 1 - f_{\mathbf{w},b}\left( \mathbf{x}^{(i)} \right) \right)
+```
 
 The loss function can be rewritten to be easier to implement.
   
@@ -1356,6 +1356,35 @@ The algorithm iteratively adds trees to correct the errors from the previous tre
   - Add the new tree to the existing ensemble with a scaling factor (learning rate) to control the contribution of the new tree.
 
 The final model is the sum of the initial model and all the trees added during the iterations.
+
+Details of the Gradient Boosting Algorithm for Regression:
+
+1. Initial Prediction: 
+
+```math
+F_0(x) = \text{mean}(y)
+```
+2. Compute the residuals $r_i$ for each data point (difference between the actual target value and the current model’s prediction): 
+```math
+r_i = - \left[ \frac{\partial L(y_i, F_{m-1}(x_i))}{\partial F_{m-1}(x_i)} \right]
+```
+For squared error loss function, it is simply the difference between actual target value and the current model’s prediction:
+```math
+r_i = y_i - F_0(x_i)
+```
+3. Train  weak learner (decision tree) $h_1(x)$ to predict the residuals $r_i$ instead of the target $y$ using the input features $x_i$
+```math
+h_1(x) = \text{argmin}_{h} \sum_{i=1}^{m} (r_i - h(x_i))^2
+```
+4. Update the model $F_1(x)$ with the new tree $h_1(x)$ and a learning rate $\alpha$ (e.g. 0.1):
+```math
+F_1(x) = F_0(x) + \alpha h_1(x)
+```
+5. Compute the residuals $r_i$ for the new model:
+```math
+r_i = y_i - F_1(x_i)
+```
+6. Continue training new trees (step 3) and updating the model until the residuals are small or a stopping criteria is met.
 
 #### XGBoost
 
