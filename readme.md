@@ -41,6 +41,8 @@
     - [Train test prodcedure for linear regression](#train-test-prodcedure-for-linear-regression)
     - [Train test prodcedure for logistic regression](#train-test-prodcedure-for-logistic-regression)
     - [Cross-Validation](#cross-validation)
+      - [K-Fold Cross-Validation](#k-fold-cross-validation)
+      - [R2 Score](#r2-score)
     - [Diagnosing Bias and Variance](#diagnosing-bias-and-variance)
     - [Baseline level of performance](#baseline-level-of-performance)
     - [Learning Curves](#learning-curves)
@@ -978,6 +980,42 @@ This way, step 1 and 2 are used to select the model parameters. Step 1 chooses w
 - For binary classification $J_{\text{cv}}(w, b)$ is the fraction of misclassified examples. 
 - Cross-validation is also used to choose layers and neurons in a neural network.
 - Important to note, when using z-score feature nomalization the mean and standard deviation from the training set is also used to normalize the test and cross-validation sets.
+
+#### K-Fold Cross-Validation
+
+Split the data into k equal-sized folds. Train the model k times, each time using a different fold as the validation set and the remaining k-1 folds as the training set.
+
+<img src="images/kfold_krossvalidation.png" height="300" />
+
+- The cross-validation error is the average of the k cross-validation errors.
+- K represents the number of folds.
+- Choosing k = 5 or k = 10 is common. Higher values of k are more computationally expensive.
+- Shuffle the data before splitting it into folds. This breaks any inherent order in the data. If the order is important, e.g. time series data, it should not be shuffled.
+
+#### R2 Score
+
+For regression, the R2 score is a measure of how well the model fits the data. 
+
+```math
+R^2 = 1− \frac{\text{Total Variation}}{\text{Unexplained Variation}}
+```
+
+```math
+R^2 = 1− \frac{\text{SSres}}{\text{SStot}}
+```
+
+```math
+R^2 = 1 - \frac{\sum_{i=1}^{n} (y_i - \hat{y}i)^2}{\sum_{i=1}^{n} (y_i - \bar{y})^2}
+```
+
+- $y_i$ : Actual values.
+- $\hat{y}_i$ : Predicted values.
+- $\bar{y}$ : Mean of the actual values.
+
+Interpretation:
+- $R^2$ = 1 : Perfect fit. The model explains all the variability in the data.
+- $R^2$ = 0 : The model does not explain any variability in the data, equivalent to predicting the mean of the target variable for all inputs.
+- $R^2$ < 0 : The model performs worse than a simple mean prediction.
 
 ### Diagnosing Bias and Variance
 
