@@ -68,6 +68,8 @@
       - [Gradient Boosting](#gradient-boosting)
       - [XGBoost](#xgboost)
       - [Decision Trees vs Neural Networks](#decision-trees-vs-neural-networks)
+  - [Clustering](#clustering)
+    - [K-Means Clustering](#k-means-clustering)
 
 ## Linear Regression
 
@@ -1440,3 +1442,57 @@ Neural Networks:
 - Maybe slow to train and require a lot of data
 - Work with transfer learning and pre-trained models
 - When building a system of multiple models working together, it might be easier to string together multiple neural networks
+
+## Clustering
+
+Clustering is an unsupervised learning technique used to group similar data points together. The goal is to find groups of data points that are similar to each other and dissimilar to data points in other groups.
+
+### K-Means Clustering
+
+K-means partitions the data points into k clusters. K needs to be specified by the user. The algorithm assigns each data point to the cluster with the nearest centroid. The centroid is the mean of all the data points in the cluster.
+
+1. Randomly initialize $k$ cluster centroids $\mu_1, \mu_2, \ldots, \mu_k$
+2. Assign each data point to the nearest centroid
+```math
+c^{(i)} = \text{argmin}_k ||x^{(i)} - \mu_k||^2
+```
+3. Update the centroids by calculating the mean of all the data points in the cluster
+```math
+\mu_k = \frac{1}{|C_k|} \sum_{i \in C_k} x^{(i)}
+```
+4. Repeat steps 2 and 3 until the centroids do not change or a stopping criteria is met
+
+Cost function for a single cluster:
+```math
+J(c^{(1)}, \ldots, c^{(m)}, \mu_1, \ldots, \mu_k) = \frac{1}{m} \sum_{i=1}^{m} ||x^{(i)} - \mu_{c^{(i)}}||^2
+```
+Cost function for all clusters:
+```math
+J = \sum_{i=1}^k \sum_{x \in C_k} \| x - \mu_{c^{(i)}} \|^2
+```
+
+- $c^{(i)}$ index of cluster (1,2..,k) to which example $x^{(i)}$ is currently assigned
+- $C_k$ is the set of data points assigned to cluster $k$
+- $|C_k|$ is the number of data points assigned to cluster $k$
+- $u_k$ is the centroid of cluster $k$
+- $u_{c^{(i)}}$ is the centroid of the cluster to which example $x^{(i)}$ is currently assigned
+- $m$ is the number of data points
+
+If a cluster has no data points assigned, we can either remove the cluster or reinitialize the centroids.
+
+![alt text](images/k_means_clustering.png)
+
+**Random initialization**:
+1. choose $k$ < m
+2. Randomly select $k$ training examples
+3. Set $\mu_1, \mu_2, \ldots, \mu_k$ equal to these $k$ examples
+
+The cost function should go down with each iteration. The algorithm may converge to a local minimum, so it is recommended to run the algorithm multiple times (50-100) with different initializations and pick the set of clusters with the lowest cost (distortion).
+
+Example for k = 3 clusters with different initializations and different local minima:
+
+![alt text](images/k_means_initialization.png)
+
+**Choosing the number of clusters $k$:**
+- The elbow method: plot the cost function as a function of the number of clusters. The cost function will decrease as the number of clusters increases. The elbow point is the point where the cost function starts to decrease more slowly.
+- It is often choosen based on domain knowledge.
