@@ -159,8 +159,7 @@ Distance:
 \|\mathbf{x} - \mathbf{y}\|_2 = \sqrt{(-4)^2 + (-5)^2 + (-5)^2} = \sqrt{16 + 25 + 25} = \sqrt{66} \approx 8.124
 ```
 
-Special case:
-### Special Cases
+**Special Cases**:
 
 **Norm of a Single Vector**:
 The L2 norm of a single vector $\mathbf{x}$ is the distance of the vector from its origin:
