@@ -5,6 +5,7 @@
   - [Square of a Vector](#square-of-a-vector)
   - [Matrix Transpose](#matrix-transpose)
   - [Matrix Multiplication](#matrix-multiplication)
+  - [Euclidean Distance](#euclidean-distance)
 
 
 ## Dot Product
@@ -124,4 +125,53 @@ The elements of $\mathbf{C}$ are computed as follows:
 
 ```math
 \mathbf{C}_{34} = (5 \cdot 10) + (6 \cdot 14) = 50 + 84 = 134
+```
+
+## Euclidean Distance
+For two vectors $\mathbf{x} = (x_1, x_2, \dots, x_n)$ and $\mathbf{y} = (y_1, y_2, \dots, y_n)$, the Euclidean distance between them is calculated as:
+
+```math
+\|\mathbf{x} - \mathbf{y}\| = \sqrt{\sum_{i=1}^n (x_i - y_i)^2}
+```
+
+Alternatively, it can be written as:
+
+```math
+\|\mathbf{x} - \mathbf{y}\|^2 = \sum_{i=1}^n (x_i - y_i)^2
+```
+
+- $\|\mathbf{x} - \mathbf{y}\|$: Denotes the L2 norm. Can also be written as $\|\mathbf{x} - \mathbf{y}\|_2$. If there is no number specified, it is assumed to be 2.
+- $n$: The number of dimensions in the vectors $\mathbf{x}$ and $\mathbf{y}$.
+
+**Example**:
+
+Vectors:
+
+$\mathbf{x} = (2, 3, 5)$, $\mathbf{y} = (6, 8, 10)$
+
+Distance:
+
+```math
+\|\mathbf{x} - \mathbf{y}\|_2 = \sqrt{(2 - 6)^2 + (3 - 8)^2 + (5 - 10)^2}
+```
+
+```math
+\|\mathbf{x} - \mathbf{y}\|_2 = \sqrt{(-4)^2 + (-5)^2 + (-5)^2} = \sqrt{16 + 25 + 25} = \sqrt{66} \approx 8.124
+```
+
+Special case:
+### Special Cases
+
+**Norm of a Single Vector**:
+The L2 norm of a single vector $\mathbf{x}$ is the distance of the vector from its origin:
+
+```math
+\|\mathbf{x}\|_2 = \sqrt{\sum_{i=1}^n x_i^2}
+```
+
+**In Terms of Matrix Operations**:
+If $\mathbf{x}$ and $\mathbf{y}$ are vectors, the Euclidean distance can also be written as:
+
+```math
+\|\mathbf{x} - \mathbf{y}\|_2 = \sqrt{(\mathbf{x} - \mathbf{y})^\top (\mathbf{x} - \mathbf{y})}
 ```
