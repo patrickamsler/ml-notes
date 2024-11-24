@@ -70,6 +70,12 @@
       - [Decision Trees vs Neural Networks](#decision-trees-vs-neural-networks)
   - [Clustering](#clustering)
     - [K-Means Clustering](#k-means-clustering)
+  - [Anomaly Detection](#anomaly-detection)
+    - [Gaussian Distribution](#gaussian-distribution)
+    - [Density Estimation](#density-estimation)
+    - [Anomaly Detection Evaluation](#anomaly-detection-evaluation)
+    - [Anomaly Detection vs Supervised Learning](#anomaly-detection-vs-supervised-learning)
+    - [Feature Selection in Anomaly Detection](#feature-selection-in-anomaly-detection)
 
 ## Linear Regression
 
@@ -1496,3 +1502,124 @@ Example for k = 3 clusters with different initializations and different local mi
 **Choosing the number of clusters $k$:**
 - The elbow method: plot the cost function as a function of the number of clusters. The cost function will decrease as the number of clusters increases. The elbow point is the point where the cost function starts to decrease more slowly.
 - It is often choosen based on domain knowledge.
+
+## Anomaly Detection
+
+Anomaly detection is used to identify data points that are significantly different from the rest of the data. Anomalies are also called outliers, novelties, noise, deviations, and exceptions.
+
+Use cases:
+- Fraud detection
+  - Features of users activities, e.g. time of day, location, amount of transaction
+  - Model $p(x)$ from the data
+  - Identify data points with low probability $p(x) < \epsilon$
+- Manufacturing
+  - Features of machines, e.g. temperature, pressure, vibration
+- Intrusion detection
+  - Features of network traffic, e.g. number of packets, time of day, source IP address
+
+### Gaussian Distribution
+
+Probability is determined by the Gaussion (normal) distribution with mean $\mu$ and variance $\sigma^2$.
+```math
+p(x; \mu, \sigma^2) = \frac{1}{\sqrt{2\pi}\sigma} \exp \left( - \frac{(x - \mu)^2}{2\sigma^2} \right)
+```
+- $x$ is the data point
+- $\mu$ is the mean of the data
+- $\sigma^2$ is the variance of the data
+
+Parameters $\mu$ and $\sigma^2$ are estimated from the data:
+```math
+\mu = \frac{1}{m} \sum_{i=1}^{m} x^{(i)}
+```
+```math
+\sigma^2 = \frac{1}{m} \sum_{i=1}^{m} (x^{(i)} - \mu)^2
+```
+
+### Density Estimation
+
+Dennsity estimation is used to model the distribution of the data. The goal is to find data that has low probability of occuring
+
+```math
+p(x_{\text{test}}) < \epsilon
+```
+- $p(x_{\text{test}})$ is the probability of the data point $x_{\text{test}}$
+- $\epsilon$ is the threshold
+  
+**General Formula for Anomaly Detection**:
+```math
+p(x) = p(x_1; \mu_1, \sigma_1^2) \cdot p(x_2; \mu_2, \sigma_2^2) \cdot \ldots \cdot p(x_n; \mu_n, \sigma_n^2) = \prod_{j=1}^{n} p(x_j; \mu_j, \sigma_j^2)
+```
+- $x_i$ is the $i$-th feature of the data point $x$
+- $\mu_i$ is the mean of the $i$-th feature
+- $\sigma_i^2$ is the variance of the $i$-th feature
+- $p(x_i; \mu_i, \sigma_i^2)$ is the probability density function of the $i$-th feature
+
+The overall probability $p(x)$ is the product of the probabilities of each feature. Here we assume that the features are independent, which is not always the case but is a common assumption. If one of the features has a low probability, the overall probability will be low.
+
+Example with two features $x_1$ and $x_2$:
+
+![alt text](images/density_estimation.png)
+
+### Anomaly Detection Evaluation
+
+To evaluate the performance of the anomaly detection algorithm, we need labeled data.
+
+Assume labeled data with: y = 0 for normal data and y = 1 for anomalies.
+
+- **Training set:** $x^{(1)}, x^{(2)}, \ldots, x^{(m)}$ for all data with $y = 0$
+- **Coss-validation set:** $x_{\text{cv}}^{(1)}, x_{\text{cv}}^{(2)}, \ldots, x_{\text{cv}}^{(m_{\text{cv}})}$ for all data with $y_{\text{cv}} = 0$ and $y_{\text{cv}} = 1$
+- **Test set:** $x_{\text{test}}^{(1)}, x_{\text{test}}^{(2)}, \ldots, x_{\text{test}}^{(m_{\text{test}})}$ for all data with $y_{\text{test}} = 0$ and $y_{\text{test}} = 1$
+
+Example with Airplane engine data (ratio good to faulty engines is very low):
+- 10000 good engines (y = 0)
+- 20 faulty engines (y = 1)
+
+We add all the good engines to the training set fit the Gaussian distribution and calculate the mean and variance. We then use the cross-validation set to find the best threshold $\epsilon$.
+- Training set: 6000 good engines
+- Cross-validation set: 2000 good engines, 10 faulty engines
+- Test set: 2000 good engines, 10 faulty engines
+
+Event though we work with labeled data, it is still an unsupervised learning problem because we do not use the labels in the training process.
+
+Evaluation Metrics on the cross-validation set:
+
+```math
+y = \begin{cases} 
+1 & \text{if } p(x) < \epsilon \text{ (anomaly)} \\
+0 & \text{if } p(x) \geq \epsilon \text{ (normal)}
+\end{cases}
+```
+
+- True positive, false positive, true negative, false negative
+- Precision/recall
+- F1 score
+
+### Anomaly Detection vs Supervised Learning
+
+Anomaly detection:
+- very small number of positive examples $y=1$ (anomalies) and large number of negative examples $y=0$. (0-20 examples is common)
+- Many different types of anomalies are hard for an algorithm to learn. E.g. many different types of fraud or many different types of manufacturing defects. Future anomalies may look very different from the anomalies in the training set.
+
+Supervised learning:
+- large number of positive and negative examples
+- Enough positives examples for the algorithm to learn. Future positive examples are likely to be similar to the positive examples in the training set.
+
+### Feature Selection in Anomaly Detection
+
+Correct feature selection is more important in anomaly detection than in supervised learning. Supervised learning algorithms can learn to ignore irrelevant features. Anomaly detection algorithms can be sensitive to irrelevant features.
+
+Make sure features are more or less Gaussian distributed
+
+Features that are not guassian distributed can be transformed with a log transformation or a square root transformation.
+  
+```math
+x_i = \log(x_i + c)
+```
+```math
+x_i = \sqrt{x_i} = x_i^{\frac{1}{2}}
+```
+The value of $c$ is choosen to avoid taking the log of zero. The value of $c$ is set experimentally.
+
+![alt text](images/log-transformation.png)
+
+All the transformations applied to the training set must also be applied to the cross-validation and test sets.
