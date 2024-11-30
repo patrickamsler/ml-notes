@@ -78,8 +78,12 @@
     - [Feature Selection in Anomaly Detection](#feature-selection-in-anomaly-detection)
   - [Recommender Systems](#recommender-systems)
     - [Collaborative Filtering](#collaborative-filtering)
-    - [Collaborative Filtering Algorithm](#collaborative-filtering-algorithm)
-    - [Binary Labels](#binary-labels)
+      - [Collaborative Filtering Algorithm](#collaborative-filtering-algorithm)
+      - [Binary Labels](#binary-labels)
+      - [Mean Normalization](#mean-normalization-1)
+      - [Finding Similar Items](#finding-similar-items)
+      - [Collaborative Filtering in Tensorflow](#collaborative-filtering-in-tensorflow)
+      - [Limitations of Collaborative Filtering](#limitations-of-collaborative-filtering)
 
 ## Linear Regression
 
@@ -1672,7 +1676,7 @@ J(w^{(1)}, b^{(1)}, \ldots, w^{(n_u)}, b^{(n_u)}) = \frac{1}{2} \sum_{j=1}^{n_u}
 - Each has one bias term $b^{(j)}$
 - Parameters per user: $n + 1$. Toatal parameters for $n_u$ user and $n$ features: $n_u * (n + 1)$
 
-### Collaborative Filtering Algorithm
+#### Collaborative Filtering Algorithm
 
 In the example above we used the features of the movies to predict the ratings of the users. 
 In collaborative filtering we use the ratings of the users to learn the features of the movies if we don't have the features.
@@ -1718,7 +1722,7 @@ b^{(j)} := b^{(j)} - \alpha \frac{\partial}{\partial b^{(j)}} J(w, b, x)
 x_k^{(i)} := x_k^{(i)} - \alpha \frac{\partial}{\partial x_k^{(i)}} J(w, b, x)
 ```
 
-### Binary Labels
+#### Binary Labels
 
 If we don't have ratings like 1 to 5, but have the information if a user likes a movie or not, we have so called binary labels.
 The labels are 1 if the user likes the movie and 0 if the user does not like the movie.
@@ -1747,3 +1751,120 @@ J(w, b, x) = \frac{1}{m} \sum_{i=1}^{m} L(f_{(w,b,x)}(x), y^{(i, j)}) + \frac{\l
 - $y^{(i, j)}$ is the label for the example $i$ and user $j$. $y^{(i, j)} = 1$ if the user likes the movie and $y^{(i, j)} = 0$ if the user does not like the movie.
 - $f_{(w,b,x)}(x)$ is the prediction of the model
 - $x$ is the feature vector for the movie
+
+#### Mean Normalization
+
+Mean normalization is used to normalize the ratings of the users. The mean of the ratings is subtracted from the ratings.
+```math
+y^{(i, j)} = y^{(i, j)} - \mu
+```
+
+If we have a user that has not rated any movies, the prediction for the user will be the mean of all the ratings.
+
+Example:
+
+Given 5 users $n$ and 5 movies $m$, where user 5 has not rated any movies:
+```math
+\begin{bmatrix}
+5 & 5 & 0 & 0 & ? \\
+5 & ? & ? & 0 & ? \\
+? & 4 & 0 & ? & ? \\
+0 & 0 & 5 & 4 & ? \\
+0 & 0 & 5 & 0 & ?
+\end{bmatrix}
+```
+The mean of the ratings for each movie is:
+```math
+\begin{bmatrix}
+2.5 \\
+2.5 \\
+2 \\
+2.25 \\
+1.25 
+\end{bmatrix}
+```
+
+then we subtract the mean from the ratings to get the normalized ratings:
+```math
+\begin{bmatrix}
+2.5 & 2.5 & -2.5 & -2.5 & ? \\
+2.5 & ? & ? & -2.5 & ? \\
+? & 2 & -2 & ? & ? \\
+-2.25 & -2.25 & 2.75 & 1.75 & ? \\
+-1.25 & -1.25 & 3.75 & -1.25 & ?
+\end{bmatrix}
+```
+
+The we can learn the ratings like in the previous examples. For users that have not rated any movies, the prediction will be the mean of the ratings.
+We just need to add the mean to the prediction to get the actual rating.
+```math
+w^{(5)} * x^{(i)} + b^{(5)} + \mu_i
+```
+
+#### Finding Similar Items
+
+Lets say user selects a movie $i$ and we want to recommend a similar movie $k$. 
+We can use the features $x$ to find the similarity between the movies by calculating the distance between the feature vectors with the Euclidean distance.
+
+```math
+\text{similarity} = \sum_{j=1}^{n} (x_j^{(i)} - x_j^{(k)})^2 = ||x^{(i)} - x^{(k)}||^2
+```
+
+#### Collaborative Filtering in Tensorflow
+
+Neural networks are not typically used for collaborative filtering. But we can user TensorFlow auto differentiation to learn the parameters $w$, $b$ and $x$.
+
+Example for gradient descent:
+
+```python
+w = tf.Variable(3.0)
+x = 1.0
+y = 1.0 # target value
+alpha = 0.01
+iterations = 30
+
+for iter in range(iterations):
+  # Use TensorFlow’s Gradient tape to record the steps
+  # used to compute the cost J, to enable auto differentiation.
+  with tf.GradientTape() as tape:
+    fwb = w*x
+    costJ = (fwb - y)**2
+  
+  # Use the gradient tape to calculate the gradients
+  # of the cost with respect to the parameter w.
+  [dJdw] = tape.gradient( costJ, [w] )
+  
+  # Run one step of gradient descent by updating
+  # the value of w to reduce the
+  w.assign_add(-alpha * dJdw)
+```
+
+Example for Adam optimizer:
+
+```python
+# Instantiate an optimizer.
+optimizer = keras.optimizers.Adam(learning_rate=1e-1)
+iterations = 200
+
+for iter in range(iterations):
+  # Use TensorFlow’s GradientTape
+  # to record the operations used to compute the cost
+  with tf.GradientTape() as tape:
+    # Compute the cost (forward pass is included in cost)
+    cost_value = cofiCostFuncV(X, W, b, Ynorm, R, num_users, num_movies, lambda)
+  
+  # Use the gradient tape to automatically retrieve
+  # the gradients of the trainable variables with respect to the loss
+  grads = tape.gradient( cost_value, [X,W,b] )
+  
+  # Run one step of gradient descent by updating
+  # the value of the variables to minimize the loss.
+  optimizer.apply_gradients( zip(grads, [X,W,b]) )
+```
+
+#### Limitations of Collaborative Filtering
+
+- Cold start problem: If a new user or movie is added, we don't have any ratings for the user or movie. We can't make any recommendations.
+- Show something reasonable to new users who have rated few items.
+- Meta informations such as genres, actors, directors, etc. or information about the user like age or country are not used in collaborative filtering.
+
