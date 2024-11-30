@@ -76,6 +76,10 @@
     - [Anomaly Detection Evaluation](#anomaly-detection-evaluation)
     - [Anomaly Detection vs Supervised Learning](#anomaly-detection-vs-supervised-learning)
     - [Feature Selection in Anomaly Detection](#feature-selection-in-anomaly-detection)
+  - [Recommender Systems](#recommender-systems)
+    - [Collaborative Filtering](#collaborative-filtering)
+    - [Collaborative Filtering Algorithm](#collaborative-filtering-algorithm)
+    - [Binary Labels](#binary-labels)
 
 ## Linear Regression
 
@@ -1623,3 +1627,123 @@ The value of $c$ is choosen to avoid taking the log of zero. The value of $c$ is
 ![alt text](images/log-transformation.png)
 
 All the transformations applied to the training set must also be applied to the cross-validation and test sets.
+
+## Recommender Systems
+Recommender systems are used to recommend items to users based on their preferences. They are used in e-commerce, social media, and streaming services.
+
+### Collaborative Filtering
+If we have ratings from multiple users and features for the items, we can use supervised learning algorithms (linear regression) to predict the rating of a user for an item.
+
+| Movie                  | Alice(1) | Bob(2) | Carol(3) | Dave(4) | x1 (romance) | x2 (action) |
+|------------------------|----------|--------|----------|---------|--------------|-------------|
+| Love at last           | 5        | 5      | 0        | 0       | 0.9          | 0           |
+| Romance forever        | 5        | ?      | 0        | 0       | 1.0          | 0.01        |
+| Cute puppies of love   | ?        | 4      | ?        | ?       | 0.99         | 0           |
+| Nonstop car chases     | 0        | 0      | 4        | 4       | 0.1          | 1.0         |
+| Swords vs. karate      | 0        | 0      | ?        | ?       | 0            | 0.9         |
+
+- $n_u$ is the number of users
+- $n_m$ is the number of movies
+- $r(i, j) = 1$ if user $j$ has rated movie $i$. e.g. $r(1, 1) = 1$ and $r(2, 2) = 0$
+- $y(i, j)$ is the rating given by user $j$ to movie $i$. e.g. $y(1, 1) = 5$ and $y(2, 4) = 0$
+- $x^{(i)}$ is the feature vector for movie $i$, e.g. $x^{(1)} = \begin{bmatrix} 0.9 \\ 0 \end{bmatrix}$
+- $m_j$ is the number of movies rated by user $j$
+
+Predict the rating for moive Cute puppies of love for user Alice. Parameters $w$ and $b$ are learned from the data. $x$ is the feature vector for the movie. $w$ has the same length as $x$.
+```math
+\text{rating} = w^{(1)} * x^{(3)} + b^{(1)} = \begin{bmatrix} 5 \\ 0 \end{bmatrix} * \begin{bmatrix} 0.99 \\ 0 \end{bmatrix} + 0 = 4.95
+```
+
+To learn the parameters $w^{(j)}$ and $b^{(j)}$ for a user $j$ we minimize the cost function:
+```math
+J(w^{(j)}, b^{(j)}) = \frac{1}{2} \sum_{i:r(i, j) = 1} \left( w^{(j)} * x^{(i)} + b^{(j)} - y^{(i, j)} \right)^2 + \frac{\lambda}{2} \sum_{k=1}^{n} (w_k^{(j)})^2 
+```
+
+- $y^{(i, j)}$ is the rating by user $j$ on movie $i$. We exculde the movies that have not been rated from the sum. $r(i, j) = 1$ if user $j$ has rated movie $i$.
+- $\lambda$ is the regularization parameter
+- $n$ is the number of features, e.g. $n = 2$ in the example
+
+To learn all the parameters $w^{(j)}$ and $b^{(j)}$ for all users we minimize the cost function:
+```math
+J(w^{(1)}, b^{(1)}, \ldots, w^{(n_u)}, b^{(n_u)}) = \frac{1}{2} \sum_{j=1}^{n_u} \sum_{i:r(i, j) = 1} \left( w^{(j)} * x^{(i)} + b^{(j)} - y^{(i, j)} \right)^2 + \frac{\lambda}{2} \sum_{j=1}^{n_u} \sum_{k=1}^{n} (w_k^{(j)})^2 
+```
+
+- the vector $w^{(j)}$ is the parameter vector for user $j$ and has the same length as the feature vector $x^{(i)}$
+- Each has one bias term $b^{(j)}$
+- Parameters per user: $n + 1$. Toatal parameters for $n_u$ user and $n$ features: $n_u * (n + 1)$
+
+### Collaborative Filtering Algorithm
+
+In the example above we used the features of the movies to predict the ratings of the users. 
+In collaborative filtering we use the ratings of the users to learn the features of the movies if we don't have the features.
+
+| Movie                  | Alice(1) | Bob(2) | Carol(3) | Dave(4) | x1 (romance) | x2 (action) |
+|------------------------|----------|--------|----------|---------|--------------|-------------|
+| Love at last           | 5        | 5      | 0        | 0       | ?            | ?           |
+| Romance forever        | 5        | ?      | 0        | 0       | ?            | ?           |
+| Cute puppies of love   | ?        | 4      | ?        | ?       | ?            | ?           |
+| Nonstop car chases     | 0        | 0      | 4        | 4       | ?            | ?           |
+| Swords vs. karate      | 0        | 0      | ?        | ?       | ?            | ?           |
+
+Given $w^{(1)}, b^{(1)}, \ldots, w^{(n_u)}, b^{(n_u)}$ we can learn the features $x$ for the movies. We can then use the features to predict the ratings of the users.
+
+To learn $x$ for a movie $i$ we minimize the cost function:
+```math
+J(x^{(i)}) = \frac{1}{2} \sum_{j:r(i, j) = 1} \left( w^{(j)} * x^{(i)} + b^{(j)} - y^{(i, j)} \right)^2 + \frac{\lambda}{2} \sum_{k=1}^{n} (x_k^{(i)})^2 
+```
+
+For all movies we minimize the cost function:
+```math
+J(x^{(1)}, \ldots, x^{(n_m)}) = \frac{1}{2} \sum_{i=1}^{n_m} \sum_{j:r(i, j) = 1} \left( w^{(j)} * x^{(i)} + b^{(j)} - y^{(i, j)} \right)^2 + \frac{\lambda}{2} \sum_{i=1}^{n_m} \sum_{k=1}^{n} (x_k^{(i)})^2 
+```
+
+- $n_m$ is the number of movies
+- $n$ is the number of features, e.g. $n = 2$ in the example
+- $y^{(i, j)}$ is the rating by user $j$ on movie $i$. We exculde the movies that have not been rated from the sum. $r(i, j) = 1$ if user $j$ has rated movie $i$.
+
+We can combine the cost functio to learn the parameters $w$, $b$ and the cost function to learn the features $x$ and minimize the cost function for all parameters:
+
+```math
+J(w, b, x) = \frac{1}{2} \sum_{(i, j):r(i, j) = 1} \left( w^{(j)} * x^{(i)} + b^{(j)} - y^{(i, j)} \right)^2 + \frac{\lambda}{2} \sum_{j=1}^{n_u} \sum_{k=1}^{n} (w_k^{(j)})^2 + \frac{\lambda}{2} \sum_{i=1}^{n_m} \sum_{k=1}^{n} (x_k^{(i)})^2 
+```
+
+We can use gradient descent or other optimization algorithms to minimize the cost.
+```math
+w_j^{(j)} := w_j^{(j)} - \alpha \frac{\partial}{\partial w_j^{(j)}} J(w, b, x)
+```
+```math
+b^{(j)} := b^{(j)} - \alpha \frac{\partial}{\partial b^{(j)}} J(w, b, x)
+```
+```math
+x_k^{(i)} := x_k^{(i)} - \alpha \frac{\partial}{\partial x_k^{(i)}} J(w, b, x)
+```
+
+### Binary Labels
+
+If we don't have ratings like 1 to 5, but have the information if a user likes a movie or not, we have so called binary labels.
+The labels are 1 if the user likes the movie and 0 if the user does not like the movie.
+Other examples are: click/no click, buy/no buy. 
+
+For binary labels the predict is similar to logistic regression:
+```math
+g(z) = \frac{1}{1 + e^{-z}}
+```
+```math
+y^{(i, j)}: f_{(w,b,x)}(x) = g(w^{j} * x^{(i)} + b^{(j)})
+```
+The loss for a single example is:
+```math
+L(f_{(w,b,x)}(x), y^{(i, j)}) = -y^{(i, j)} \log(f_{(w,b,x)}(x) - (1 - y^{(i, j)}) \log(1 - f_{(w,b,x)}(x)
+```
+The cost function is the sum of the loss for all examples:
+```math
+J(w, b, x) = \frac{1}{m} \sum_{i=1}^{m} L(f_{(w,b,x)}(x), y^{(i, j)}) + \frac{\lambda}{2} \sum_{j=1}^{n_u} \sum_{k=1}^{n} (w_k^{(j)})^2 + \frac{\lambda}{2} \sum_{i=1}^{n_m} \sum_{k=1}^{n} (x_k^{(i)})^2 
+```
+
+- $m$ is the number of examples
+- $n_u$ is the number of users
+- $n_m$ is the number of movies
+- $n$ is the number of features
+- $y^{(i, j)}$ is the label for the example $i$ and user $j$. $y^{(i, j)} = 1$ if the user likes the movie and $y^{(i, j)} = 0$ if the user does not like the movie.
+- $f_{(w,b,x)}(x)$ is the prediction of the model
+- $x$ is the feature vector for the movie
