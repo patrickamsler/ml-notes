@@ -84,6 +84,8 @@
       - [Finding Similar Items](#finding-similar-items)
       - [Collaborative Filtering in Tensorflow](#collaborative-filtering-in-tensorflow)
       - [Limitations of Collaborative Filtering](#limitations-of-collaborative-filtering)
+    - [Content-Based Filtering](#content-based-filtering)
+      - [Retrival and Ranking](#retrival-and-ranking)
 
 ## Linear Regression
 
@@ -1637,6 +1639,7 @@ Recommender systems are used to recommend items to users based on their preferen
 
 ### Collaborative Filtering
 If we have ratings from multiple users and features for the items, we can use supervised learning algorithms (linear regression) to predict the rating of a user for an item.
+All users collaborate to generate the rating set.
 
 | Movie                  | Alice(1) | Bob(2) | Carol(3) | Dave(4) | x1 (romance) | x2 (action) |
 |------------------------|----------|--------|----------|---------|--------------|-------------|
@@ -1653,7 +1656,8 @@ If we have ratings from multiple users and features for the items, we can use su
 - $x^{(i)}$ is the feature vector for movie $i$, e.g. $x^{(1)} = \begin{bmatrix} 0.9 \\ 0 \end{bmatrix}$
 - $m_j$ is the number of movies rated by user $j$
 
-Predict the rating for moive Cute puppies of love for user Alice. Parameters $w$ and $b$ are learned from the data. $x$ is the feature vector for the movie. $w$ has the same length as $x$.
+Predict the rating for moive Cute puppies of love for user Alice. Parameters $w$ and $b$ are learned from the data. $x$ is the feature vector for the movie. 
+$w$ represents the taste of a user and has the same length as $x$.
 ```math
 \text{rating} = w^{(1)} * x^{(3)} + b^{(1)} = \begin{bmatrix} 5 \\ 0 \end{bmatrix} * \begin{bmatrix} 0.99 \\ 0 \end{bmatrix} + 0 = 4.95
 ```
@@ -1705,7 +1709,7 @@ J(x^{(1)}, \ldots, x^{(n_m)}) = \frac{1}{2} \sum_{i=1}^{n_m} \sum_{j:r(i, j) = 1
 - $n$ is the number of features, e.g. $n = 2$ in the example
 - $y^{(i, j)}$ is the rating by user $j$ on movie $i$. We exculde the movies that have not been rated from the sum. $r(i, j) = 1$ if user $j$ has rated movie $i$.
 
-We can combine the cost functio to learn the parameters $w$, $b$ and the cost function to learn the features $x$ and minimize the cost function for all parameters:
+We can combine the cost function to learn the parameters $w$, $b$ and the cost function to learn the features $x$ and minimize the cost function for all parameters:
 
 ```math
 J(w, b, x) = \frac{1}{2} \sum_{(i, j):r(i, j) = 1} \left( w^{(j)} * x^{(i)} + b^{(j)} - y^{(i, j)} \right)^2 + \frac{\lambda}{2} \sum_{j=1}^{n_u} \sum_{k=1}^{n} (w_k^{(j)})^2 + \frac{\lambda}{2} \sum_{i=1}^{n_m} \sum_{k=1}^{n} (x_k^{(i)})^2 
@@ -1868,3 +1872,77 @@ for iter in range(iterations):
 - Show something reasonable to new users who have rated few items.
 - Meta informations such as genres, actors, directors, etc. or information about the user like age or country are not used in collaborative filtering.
 
+
+### Content-Based Filtering
+
+Collaborative filterind:
+- Recommend items based on rating of users who gave similar ratings as you.
+
+Content-based filtering:
+- Recommend items based on the features of user and items (content).
+
+User features:
+- age
+- gender
+- country
+- movies watched
+- average rating per genere
+
+Movie features:
+- genere
+- year
+- actors
+- reviews
+
+Notation:
+- $r(i, j)$ = 1 if user j has rated movie i
+- $y(i, j)$ = rating by user j on movie i
+- $x_u^{(j)}$ = feature vector for user j
+- $x_m^{(i)}$ = feature vector for movie i
+
+$x_u^{(j)}$ and $x_m^{(i)}$ are vectors with difference lengths. 
+To predict the rating of user j on movie i we can use the dot product of the vectors $v_u^{(j)}$ and $v_m^{(i)}$:
+These vectors have the same length and are computed from the features $x_u^{(j)}$ and $x_m^{(i)}$.
+
+```math
+\text{prediction} = v_u^{(j)} \cdot v_m^{(i)}
+```
+
+To predict the probability of user $j$ liking movie $i$ we can use the sigmoid function.
+```math
+p = g(v_u^{(j)} \cdot v_m^{(i)})
+```
+```math
+p = \frac{1}{1 + e^{-v_u^{(j)} \cdot v_m^{(i)}}}
+```
+
+We can use a neural network to learn the vector $v_u^{(j)}$  that describes the user $j$ 
+and a neural network to learn the vector $v_m^{(i)}$ that describes the movie $i$.
+The two networks can have different architectures, but the ouput layer needs to have the same length.
+
+<img src="images/recommender_neural_network.png" height="400" />
+
+The parameters of the networks are trained together to minimize the cost function. 
+Same as collaborative we only use the examples where the user has rated the movie $r(i, j) = 1$.
+```math
+J(v_u^{(1)}, \ldots, v_u^{(n_u)}, v_m^{(1)}, \ldots, v_m^{(n_m)}) = \frac{1}{2} \sum_{(i, j):r(i, j) = 1} \left( v_u^{(j)} \cdot v_m^{(i)} - y^{(i, j)} \right)^2 + \frac{\lambda}{2} \sum_{j=1}^{n_u} \sum_{k=1}^{n} (v_k^{(j)})^2 + \frac{\lambda}{2} \sum_{i=1}^{n_m} \sum_{k=1}^{n} (v_k^{(i)})^2 
+```
+
+To finde similar movies we can use the euclidean distance between the vectors $v_m^{(i)}$ and $v_m^{(k)}$.
+```math
+\text{similarity} = ||v_m^{(i)} - v_m^{(k)}||^2
+```
+
+#### Retrival and Ranking
+
+To efficiently recommend items to a user, it is not necesary to compute the ranking for all items when the user logs in.
+The vector $v_m^{(i)}$ for all movies can be precomputed and stored in a database.
+
+Retrival:
+ 1.  For each of the last 10 movies watched by the user, find 10 most similar movies: $||v_m^{(j)} - v_m^{(k)}||^2$
+ 2.  For most viewed 3 genres, find the top 10 movies
+ 3.  Top 20 movies in the country
+ 4.  Combine retrieved items into list, removing duplicates and items already watched/purchased
+
+Ranking:
+1. Take list of movies retrieved and rank using the trained model: $v_u^{(j)} \cdot v_m^{(i)}$
