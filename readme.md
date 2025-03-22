@@ -8,7 +8,7 @@
 - [Decision Trees](decision-trees.md)
 - [Unsupervised Learning](unsupervised-learning.md)
 - [Recommender Systems](recommender.md)
-- [Reinfoecement Learning](reinforcement-learning.md)
+- [Reinforcement Learning](reinforcement-learning.md)
 
 ## Math for Machine Learning
 

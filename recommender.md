@@ -1,3 +1,5 @@
+# Recommender Systems
+
 - [Recommender Systems](#recommender-systems)
   - [Collaborative Filtering](#collaborative-filtering)
     - [Collaborative Filtering Algorithm](#collaborative-filtering-algorithm)
@@ -9,7 +11,7 @@
   - [Content-Based Filtering](#content-based-filtering)
     - [Retrival and Ranking](#retrival-and-ranking)
 
-# Recommender Systems
+
 Recommender systems are used to recommend items to users based on their preferences. They are used in e-commerce, social media, and streaming services.
 
 ## Collaborative Filtering

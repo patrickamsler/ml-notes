@@ -1,10 +1,10 @@
+# Reinforcement Learning
+
 - [Reinforcement Learning](#reinforcement-learning)
   - [Markov Decision Process](#markov-decision-process)
   - [State Action Value Function](#state-action-value-function)
   - [Deep Reinforcement Learning](#deep-reinforcement-learning)
 
-
-# Reinforcement Learning
 
 Reinforcement learning is used to teach a software agent  how to make decisions. The goal is to learn a policy that maps states to actions that maximizes the reward.
 

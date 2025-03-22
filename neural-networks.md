@@ -1,3 +1,5 @@
+# Neural Networks
+
 - [Neural Networks](#neural-networks)
   - [Neural Network with Tensorflow](#neural-network-with-tensorflow)
   - [Activation Functions](#activation-functions)
@@ -10,11 +12,6 @@
   - [Layers in a Neural Network](#layers-in-a-neural-network)
     - [Dense Layer](#dense-layer)
     - [Convolutional Layer](#convolutional-layer)
-
-# Neural Networks
-
-- Inference (forward propagation): Predicting the output for new, unseen data. 
-- Training (back propagation): Learning the parameters of the model from labeled data. It is called backpropagation.
 
 ![alt text](images/neural_network.png)
 

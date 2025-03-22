@@ -1,3 +1,5 @@
+# Decision Trees
+
 - [Decision Trees](#decision-trees)
   - [Entropy as a measure of impurity](#entropy-as-a-measure-of-impurity)
   - [Information Gain](#information-gain)
@@ -13,8 +15,6 @@
     - [XGBoost](#xgboost)
     - [Decision Trees vs Neural Networks](#decision-trees-vs-neural-networks)
 
-
-## Decision Trees
 
 Decision trees are used for classification and regression. They are easy to interpret and visualize. They can handle both numerical and categorical data.
 
@@ -33,7 +33,7 @@ There are multiple possible decision trees for a dataset. The job of the learnin
 - When improvements in purity score are below a certain threshold.
 - When then number of samples in a node is below a certain threshold.
 
-### Entropy as a measure of impurity
+## Entropy as a measure of impurity
 
 **Entropy** is a measure of impurity in a dataset. 
 
@@ -58,7 +58,7 @@ Examples:
 - 50% of the examples are cats and 50% are not cats: p1 = 0.5 and H(p1) = 1.0
 - If either all the examples are cats or none of the examples are cats, the entropy is 0.
 
-### Information Gain
+## Information Gain
 
 **Information gain** is the reduction in entropy or impurity. The goal is to reduce the entropy at each node.
 
@@ -77,7 +77,7 @@ Examples:
 \text{Information Gain} = H(p_1^{root}) - (w^{left} H(p_1^{left}) + w^{right} H(p_1^{right}))
 ```
 
-### Decision Tree Learning Algorithm (Recursive Splitting)
+## Decision Tree Learning Algorithm (Recursive Splitting)
 
 1. Start with all examples at the root node
 2. Calculate information gain for all possible features, and pick the one with the highest information gain
@@ -90,7 +90,7 @@ Examples:
 
 After deciding on the root node, the algorithm is recursively applied to each child node. Each child node repeats the process of selecting the feature on a subset of the data from the parent node.
 
-### Features with Multiple Classes
+## Features with Multiple Classes
 
 Features with multiple classes create multiple branches in the tree. E.g. ear shape (pointy, round, floppy) creates three sub branches.
 
@@ -101,7 +101,7 @@ Features with multiple classes create multiple branches in the tree. E.g. ear sh
 | Oval      | Round      | Absent   | 1   |
 | Floppy    | Not round  | Absent   | 0   |
 
-#### One-Hot Encoding
+### One-Hot Encoding
 
 One-hot encoding converts a feature with multiple classes into multiple binary features.
 
@@ -118,7 +118,7 @@ If a categorical feature has k classes, one-hot encoding will create k binary fe
 
 With one-hot encoding, the decision tree algorithm can handle features with multiple classes with a binary split.
 
-### Splitting Continuous Variables
+## Splitting Continuous Variables
 
 Continuous features can have any value in a range. The decision tree algorithm tries different split points to find the best split with the highest information gain.
 
@@ -130,7 +130,7 @@ Split points are typically choosen by sorting the unique values and then calcula
 x_{\text{split}} = \frac{x_i + x_{i+1}}{2}, \quad \text{for } i \in \{1, 2, \ldots, n-1\}.
 ```
 
-### Regression with Decision Trees
+## Regression with Decision Trees
 
 If the value to predict is continuous, the decision tree is used for regression. The process for the learning algorithm is the same as for classification, but the impurity measure is different.
 
@@ -166,7 +166,7 @@ Calculate the variance reduction:
 \text{Variance Reduction} = \text{Variance}_{parent} - \text{Weighted Variance}_{children}
 ```
 
-### Tree Ensembles
+## Tree Ensembles
 
 One weakness of using a single decision tree is that it can be sensitive to small changes in the training data. Small changes in the data could lead to a completely different tree. One solution is to use multiple decision trees and combine their predictions.
 
@@ -179,7 +179,7 @@ Hyperparameters to tune:
 - Minimum number of samples required to split a node
 - Minimum number of samples required at each leaf node
 
-#### Bagging (Bootstrap Aggregating)
+### Bagging (Bootstrap Aggregating)
 
 Bagging uses sampling with replacement (bootstrap) to create multiple datasets. Each dataset contains a subset of the examples and features. And example can be used multiple times in the dataset. Each dataset is used to train a another decision tree.
 
@@ -190,7 +190,7 @@ Bagging uses sampling with replacement (bootstrap) to create multiple datasets. 
 
 $B$ is typically in the range of 64 to 128.
 
-#### Random Forest Algorithm
+### Random Forest Algorithm
 
 In addition to bagging, Random Forest introduces randomness. At each node, when choosing a feature to use to split, if $n$ features are available, pick a random subset of $k < n$ features and allow the algorithm to only choose from that subset of features.
 
@@ -203,7 +203,7 @@ In addition to bagging, Random Forest introduces randomness. At each node, when 
 
 $k$ is typically the square root of the number of features. Used when the number of features is large.
 
-#### Gradient Boosting
+### Gradient Boosting
 The algorithm iteratively adds trees to correct the errors from the previous trees, each new tree aims to correct the errors made by the previous ones. Instead of sampling with replacement, the algorithm samples the examples with weights. Examples that are misclassified have a higher weight.
 
 - Start with a constant model that predicts the mean of the target variable for regression tasks or the most frequent class for classification tasks.
@@ -243,11 +243,11 @@ r_i = y_i - F_1(x_i)
 ```
 6. Continue training new trees (step 3) and updating the model until the residuals are small or a stopping criteria is met.
 
-#### XGBoost
+### XGBoost
 
 XGBoost is a popular implementation of the gradient boosting algorithm. XGBoost builds upon the gradient boosting framework, which constructs an ensemble of decision trees sequentially. Each new tree aims to correct the errors made by the previous ones.
 
-#### Decision Trees vs Neural Networks
+### Decision Trees vs Neural Networks
 
 Decision Trees:
 - Work well on tabular (structured) data
