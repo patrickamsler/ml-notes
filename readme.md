@@ -9,6 +9,7 @@
 - [Unsupervised Learning](unsupervised-learning.md)
 - [Recommender Systems](recommender.md)
 - [Reinforcement Learning](reinforcement-learning.md)
+- [Language Models](language-models.md)
 
 ## Math for Machine Learning
 
