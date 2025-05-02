@@ -45,7 +45,7 @@ bag of words is a simple representation model but has several limitations:
 
 For instance, the word “baby” might score high on the properties “newborn” and “human” while the word “apple” scores low on these properties.
 
-![alt text](images/llm/values-of-embeddings.png)
+<img src="images/llm/values-of-embeddings.png" alt="alt text">
 
 In practice, these properties are often obscure and do not relate to single entity or humanly identifiable concepts.
 
@@ -53,7 +53,7 @@ Embeddings are fixed-length vectors that represent words in a continuous vector 
 
 Embeddings of words that are similar will be close to each other in the vector space:
 
-![alt text](images/llm/embeddings-vectore-space.png)
+<img src="images/llm/embeddings-vectore-space.png" alt="alt text">
 
 ### Types of Embeddings
 - **Word Embeddings**: Represent individual words in a continuous vector space. Examples include Word2Vec, GloVe, and FastText.
@@ -72,20 +72,20 @@ The RNNs are used for two tasks:
 - **Encoding**: The RNN processes the input sequence and generates a fixed-length vector representation of the entire sequence. This vector captures the context of the entire sequence and is the input for the decoder.
 - **Decoding**: The RNN generates the output sequence based on the encoded vector. This is typically done using a separate RNN that takes the encoded vector as input and generates the output sequence one token at a time.
 
-![alt text](images/llm/encoder-decoder.png)
+<img src="images/llm/encoder-decoder.png" alt="alt text">
 
 **Attention**: Attention mechanisms allow the model to focus on specific parts of the input sequence when generating the output sequence. 
 
 E.g. when generating a translation, the model can focus on the relevant words in the input sentence rather than treating all words equally. 
 
-![alt text](images/llm/attention.png)
+<img src="images/llm/attention.png" alt="alt text">
 
 By adding the attention mechanism to the encoder-decoder architecture, we can create a more powerful model that can generate contextually aware embeddings. 
 
 E.g. durning the generation of "Ik hou van lamas's" the RNN keeps track of the words it mostly attends to perform the translation. After generating the words “Ik,” “hou,” and “van,” the attention mechanism of the
 decoder enables it to focus on the word “llamas” before it generates the Dutch translation
 
-![alt text](images/llm/encoder-decoder-with-attention.png)
+<img src="images/llm/encoder-decoder-with-attention.png" alt="alt text">
 
 This architecture is autoregressive. When generating the next
 word, this architecture needs to consume all previously generated words.
@@ -102,7 +102,7 @@ The encoder consists of a stack of identical layers. Each layer has two sub-laye
 1. A self-attention mechanism
 2. A feed-forward neural network
 
-![alt text](images/llm/transformer-encoder.png)
+<img src="images/llm/transformer-encoder.png" alt="alt text">
 
 **Transformer decoder**
 
@@ -111,7 +111,7 @@ The decoder also consists of a stack of identical layers. Each layer has three s
 2. Encoder attention mechanism that attends to the encoder's output
 3. A feed-forward neural network
 
-![alt text](images/llm/transformer-decoder.png)
+<img src="images/llm/transformer-decoder.png" alt="alt text">
 
 - Encoder-decoder together builds the transformer architecture.
 - BERT is a transformer-based model that only uses the encoder part of the transformer architecture.
