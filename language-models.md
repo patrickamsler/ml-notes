@@ -7,6 +7,7 @@
     - [Types of Embeddings](#types-of-embeddings)
     - [Encoding and Decoding Context with Attention](#encoding-and-decoding-context-with-attention)
     - [Attention is all you need](#attention-is-all-you-need)
+    - [Training LLMs](#training-llms)
 
 
 Language models or large language models (LLMs) are a type of artificial intelligence model designed to understand and generate human language.
@@ -40,7 +41,7 @@ bag of words is a simple representation model but has several limitations:
 - It uses a neural network to learn the relationships between words in a corpus.
 - word2vec generates word embeddings by looking at which other words appear next to in a sentence and learns the relationship between words.
 
-![alt text](images/llm/neural-network-word-embedding.png)
+<img src="images/llm/neural-network-word-embedding.png" alt="alt text" width="500">
 
 For instance, the word “baby” might score high on the properties “newborn” and “human” while the word “apple” scores low on these properties.
 
@@ -114,5 +115,9 @@ The decoder also consists of a stack of identical layers. Each layer has three s
 
 - Encoder-decoder together builds the transformer architecture.
 - BERT is a transformer-based model that only uses the encoder part of the transformer architecture.
-- Decoder-only models (generative models) like GPT-2 and GPT-3 use the decoder part of the transformer architecture
+- Decoder-only models (generative models, or GPT generative pretrained transformer) like GPT-2 and GPT-3 use the decoder part of the transformer architecture
 
+### Training LLMs
+
+- **Language modeling**: The first step is pretraining (unsupervised) the model is trained on a vast amount of text data to learn the statistical properties of the language. The resulting model is often referred to as a  foundation model or base model. These models generally do not follow instructions and are not task-specific.
+- **Fine-tuning**: The second step is fine-tuning or post-training, the model is trained on a smaller, task-specific dataset to learn how to perform a specific task. This step is often referred to as instruction tuning or supervised fine-tuning.
