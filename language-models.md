@@ -29,7 +29,7 @@ Language is unstructured data and difficult to process for computers. Therefore,
   - Vocabulary: ["that", "is", "a", "cute", "dog", "my", "cat"]
   - Vector: [1, 2, 1, 2, 1, 1, 1]
 
-![alt text](images/llm/bag-of-words.png)
+<img src="images/llm/bag-of-words.png" alt="alt text">
 
 bag of words is a simple representation model but has several limitations:
 - It does not consider the order of words.
@@ -41,7 +41,7 @@ bag of words is a simple representation model but has several limitations:
 - It uses a neural network to learn the relationships between words in a corpus.
 - word2vec generates word embeddings by looking at which other words appear next to in a sentence and learns the relationship between words.
 
-<img src="images/llm/neural-network-word-embedding.png" alt="alt text" width="500">
+<img src="images/llm/neural-network-word-embedding.png" alt="alt text">
 
 For instance, the word “baby” might score high on the properties “newborn” and “human” while the word “apple” scores low on these properties.
 
