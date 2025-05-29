@@ -8,6 +8,8 @@
     - [Encoding and Decoding Context with Attention](#encoding-and-decoding-context-with-attention)
     - [Attention is all you need](#attention-is-all-you-need)
     - [Training LLMs](#training-llms)
+  - [Tokens and Embeddings](#tokens-and-embeddings)
+    - [Tokenization](#tokenization)
 
 
 Language models or large language models (LLMs) are a type of artificial intelligence model designed to understand and generate human language.
@@ -121,3 +123,32 @@ The decoder also consists of a stack of identical layers. Each layer has three s
 
 - **Language modeling**: The first step is pretraining (unsupervised) the model is trained on a vast amount of text data to learn the statistical properties of the language. The resulting model is often referred to as a  foundation model or base model. These models generally do not follow instructions and are not task-specific.
 - **Fine-tuning**: The second step is fine-tuning or post-training, the model is trained on a smaller, task-specific dataset to learn how to perform a specific task. This step is often referred to as instruction tuning or supervised fine-tuning.
+
+
+## Tokens and Embeddings
+
+### Tokenization
+
+At design time, the creator of the model chooses a tokenization strategy, like vocabulary size, and the type of tokens to use. The tokenizer needs to be trained on a specific dataset to learn the vocabulary and how to tokenize the text.
+
+![alt text](images/llm/tokenizer.png)
+
+1. Input text is split into tokens, which can be words, subwords, or characters. Each token is then mapped to a unique integer ID. The mapping is stored in a vocabulary file.
+2. The integer IDs are then converted to embeddings using an embedding layer. The embedding layer is a lookup table that maps each token ID to a dense vector representation.
+3. The embeddings are then passed through the model, which processes the embeddings and generates an output.
+4. The output is then converted back to text using the tokenizer's vocabulary file.
+
+There are for main types of tokenization strategies:
+
+![alt text](images/llm/tokenization_methods.png)
+
+- **Word tokens**: Each word is treated as a separate token. This is the simplest form of tokenization but can lead to a large vocabulary size and out-of-vocabulary (OOV) words. E.g. e.g., apology, apologize, apologetic, apologist are all separate tokens.
+- **Subword tokens**: Words are split into smaller subwords or word pieces. This allows for a smaller vocabulary size and reduces the number of OOV words. E.g. apology, apologize, apologetic, apologist can be split into subwords like "apol", "ogy", "apolog", "etic", "ist".
+-  **Character tokens**: Each character is treated as a separate token. This allows for a very small vocabulary size but can lead to longer sequences and loss of semantic meaning. E.g. "apology" would be split into "a", "p", "o", "l", "o", "g", "y".
+- **Byte tokens**: Each byte is treated as a separate token. This allows for a very small vocabulary size and can handle any text, including non-UTF-8 characters.
+
+**Tokenization properties**
+
+- **Vocabulary size**: The number of unique tokens in the vocabulary. 30K to 100K is common.
+- **Special tokens**: Tokens that are used to indicate the start and end of a sequence, padding, or other special purposes. E.g. <s> for start of sequence, </s> for end of sequence, <pad> for padding.
+- **Capitalization**: Whether the tokenizer is case-sensitive or not. Case-sensitive tokenizers treat "Hello" and "hello" as different tokens.
