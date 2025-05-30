@@ -19,6 +19,7 @@
     - [Transformer Blocks](#transformer-blocks)
     - [Self-Attention](#self-attention)
       - [Self-Attention Mechanism](#self-attention-mechanism)
+      - [Multi-Head Self-Attention](#multi-head-self-attention)
 
 
 Language models or large language models (LLMs) are a type of artificial intelligence model designed to understand and generate human language.
@@ -220,6 +221,8 @@ The different layers are identical, but do not share weights. Each layer has its
 
 Each token flows in parallel through the transformer blocks. There are dependencies between these paths in the self-attention layer, but not in the feed-forward layer.
 
+Only the first layer needs embeddings, the other layers only need the output of the previous layer. The self-attention mechanism is applied to the output of the previous layer to compute the attention scores.
+
 ### Self-Attention
 
 Self-attention is a mechanism that allows the model to focus on different parts of the input sequence when processing each token.
@@ -276,3 +279,15 @@ Intuitive explanation of Q, K, and V:
 - Q = What I'm looking for (query)
 - K = What each word offers (key)
 - V = The actual information (value)
+
+Output vector $Z$ is enriched with information from all other tokens in the sequence.
+
+#### Multi-Head Self-Attention
+
+With multi-headed attention we have not only one, but multiple sets of Query/Key/Value weight matrices. Each of these sets is randomly initialized and learns different aspects of the input sequence.
+
+If we do the same calculation as above, but with multiple sets of Query/Key/Value weight matrices, we get multiple attention scores for each token in the sequence, but the feed-forward layer accepts only one output vector per token. Therefore, we need to concatenate the output vectors of each attention head and multiply them with a learned weight matrix to get the final output vector.
+
+![alt text](images/llm/multi_headed_attention.png)
+
+Where $Z_i$ is the output vector for the $i$-th attention head, and $W_O$ is a learned weight matrix for the output of the multi-head attention mechanism.
