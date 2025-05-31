@@ -20,6 +20,7 @@
     - [Self-Attention](#self-attention)
       - [Self-Attention Mechanism](#self-attention-mechanism)
       - [Multi-Head Self-Attention](#multi-head-self-attention)
+      - [Positional Embeddings](#positional-embeddings)
 
 
 Language models or large language models (LLMs) are a type of artificial intelligence model designed to understand and generate human language.
@@ -160,7 +161,7 @@ There are for main types of tokenization strategies:
 **Tokenization properties**
 
 - **Vocabulary size**: The number of unique tokens in the vocabulary. 30K to 100K is common.
-- **Special tokens**: Tokens that are used to indicate the start and end of a sequence, padding, or other special purposes. E.g. <s> for start of sequence, </s> for end of sequence, <pad> for padding.
+- **Special tokens**: Tokens that are used to indicate the start and end of a sequence, padding, or other special purposes. E.g. `<s>` for start of sequence, `</s>` for end of sequence, `<pad>` for padding.
 - **Capitalization**: Whether the tokenizer is case-sensitive or not. Case sensitive tokenizers treat "Hello" and "hello" as different tokens.
 
 ### Token Embeddings
@@ -186,7 +187,7 @@ A common approach to generate text embeddings is to use the mean or sum of the t
 
 **Token vocabulary**: The mapping of tokens to unique integer IDs. The vocabulary is used by the tokenizer to convert text to tokens and vice versa. In the example below, the vocabulary has a size of 50k.
 
-**Token embeddings**: Vectors that represent the tokens in a continuous vector space. The token embeddings are learned during the training process and are used by the model to process the input text.
+**Token embeddings**: Vectors that represent the tokens in a continuous vector space. This token is static and does not see the surrounding context of the token. All contextualisation comes from the self-attention mechanism in the transformer model. It is the input to the first transformer block.
 
 ![alt text](images/llm/transform_tokenizer.png)
 
@@ -280,7 +281,7 @@ Intuitive explanation of Q, K, and V:
 - K = What each word offers (key)
 - V = The actual information (value)
 
-Output vector $Z$ is enriched with information from all other tokens in the sequence.
+Output vector $Z$ is enriched with information from all other tokens in the sequence. And passed to the next layer in the transformer block.
 
 #### Multi-Head Self-Attention
 
@@ -291,3 +292,20 @@ If we do the same calculation as above, but with multiple sets of Query/Key/Valu
 ![alt text](images/llm/multi_headed_attention.png)
 
 Where $Z_i$ is the output vector for the $i$-th attention head, and $W_O$ is a learned weight matrix for the output of the multi-head attention mechanism.
+
+#### Positional Embeddings
+The token embeddings do not contain any position information, therefore the self-attention mechanism does not consider the order of the tokens in the sequence, we need to add positional information to the the input of the attention mechanism.
+
+Before the transformer block does any attention, we add the positional embeddings to the token embeddings.
+
+`input_to_layer0 = word_vector  +  position_vector`
+
+- the attention mechanism itself sees the input as an unordered set. Without position tags, "The dog chased the cat" and "The cat chased the dog" would be the same input.
+- By mixing the two vectors, each token gets a unique representation that includes its position in the sequence.
+
+| Positional Encoding type     | How it works                                                                                                 | When you’ll meet it                 |
+| ---------------------------- | ------------------------------------------------------------------------------------------------------------ | ----------------------------------- |
+| **Learned absolute**         | Model keeps a tiny lookup table—just like word embeddings, but for positions 0, 1, 2…                        | BERT, GPT-2                         |
+| **Sinusoidal absolute**      | Uses fixed sine/cosine waves so the model can extrapolate to longer sequences                                | Original Transformer                |
+| **Relative / rotary (RoPE)** | Encodes the *distance* between tokens rather than absolute slot numbers, baked right into the attention math | Modern LLMs (e.g., GPT-NeoX, LLaMA) |
+
