@@ -1,17 +1,17 @@
 # Language Models
 
 - [Language Models](#language-models)
-  - [Representing Language in Structured Form](#representing-language-in-structured-form)
-    - [Bag of Words (BoW)](#bag-of-words-bow)
-    - [Dense Vector Embeddings word2vec](#dense-vector-embeddings-word2vec)
-    - [Types of Embeddings](#types-of-embeddings)
     - [Encoding and Decoding Context with Attention](#encoding-and-decoding-context-with-attention)
     - [Attention is all you need](#attention-is-all-you-need)
     - [Training LLMs](#training-llms)
   - [Tokens and Embeddings](#tokens-and-embeddings)
+    - [Representing Language in Structured Form](#representing-language-in-structured-form)
+    - [Bag of Words (BoW)](#bag-of-words-bow)
     - [Tokenization](#tokenization)
+    - [Types of Embeddings](#types-of-embeddings)
     - [Token Embeddings](#token-embeddings)
     - [Text Embeddings](#text-embeddings)
+    - [Dense Vector Embeddings word2vec](#dense-vector-embeddings-word2vec)
   - [Transformer Model](#transformer-model)
     - [Tokenizer](#tokenizer)
     - [LM Head](#lm-head)
@@ -27,52 +27,6 @@ Language models or large language models (LLMs) are a type of artificial intelli
 
 - **Representation model**s: LLMs that do not generate text but are used for task specific use cases, like classification, clustering, etc.
 - **Generative model**s: LLMs that can generate text, such as ChatGPT, Bard, etc.
-
-## Representing Language in Structured Form
-
-Language is unstructured data and difficult to process for computers. Therefore, we need to represent language in a structured form. There are several ways to represent language in a structured form
-
-### Bag of Words (BoW)
-- A simple representation model of text data.
-- Sentences are split by whitespace.
-- A vocabulary is created from the unique words in the text.
-- Each sentence is represented as a vector of word counts.
-- Example:
-  - Sentence: "that is a cute dog my cat is cute"
-  - Vocabulary: ["that", "is", "a", "cute", "dog", "my", "cat"]
-  - Vector: [1, 2, 1, 2, 1, 1, 1]
-
-![alt text](images/llm/bag-of-words.png)
-
-bag of words is a simple representation model but has several limitations:
-- It does not consider the order of words.
-- it does not consider the semantic nature of words.
-
-### Dense Vector Embeddings word2vec
-- A more advanced representation model of text data.
-- Word2vec learns semantic representations of words by training on vast amounts of text data. E.g. Wikipedia
-- It uses a neural network to learn the relationships between words in a corpus.
-- word2vec generates word embeddings by looking at which other words appear next to in a sentence and learns the relationship between words.
-
-![alt text](images/llm/neural-network-word-embedding.png)
-
-For instance, the word “baby” might score high on the properties “newborn” and “human” while the word “apple” scores low on these properties.
-
-![alt text](images/llm/values-of-embeddings.png)
-
-In practice, these properties are often obscure and do not relate to single entity or humanly identifiable concepts.
-
-Embeddings are fixed-length vectors that represent words in a continuous vector space. The distance between two word embeddings indicates the semantic similarity between the words. For example, the word embeddings for "king" and "queen" are closer together than the word embeddings for "king" and "carrot".
-
-Embeddings of words that are similar will be close to each other in the vector space:
-
-![alt text](images/llm/embeddings-vectore-space.png)
-
-### Types of Embeddings
-- **Word Embeddings**: Represent individual words in a continuous vector space. Examples include Word2Vec, GloVe, and FastText.
-- **Sentence Embeddings**: Represent entire sentences or phrases in a continuous vector space.
-- **Document Embeddings**: Represent entire documents in a continuous vector space. e.g. Bag of Words
-- **Token Embeddings**: Represent individual tokens (words, subwords, or characters) in a continuous vector space. e.g. BERT, GPT-2, and RoBERTa
 
 ### Encoding and Decoding Context with Attention
 
@@ -138,6 +92,26 @@ The decoder also consists of a stack of identical layers. Each layer has three s
 
 ## Tokens and Embeddings
 
+### Representing Language in Structured Form
+
+Language is unstructured data and difficult to process for computers. Therefore, we need to represent language in a structured form. There are several ways to represent language in a structured form
+
+### Bag of Words (BoW)
+- A simple representation model of text data.
+- Sentences are split by whitespace.
+- A vocabulary is created from the unique words in the text.
+- Each sentence is represented as a vector of word counts.
+- Example:
+  - Sentence: "that is a cute dog my cat is cute"
+  - Vocabulary: ["that", "is", "a", "cute", "dog", "my", "cat"]
+  - Vector: [1, 2, 1, 2, 1, 1, 1]
+
+![alt text](images/llm/bag-of-words.png)
+
+bag of words is a simple representation model but has several limitations:
+- It does not consider the order of words.
+- it does not consider the semantic nature of words.
+
 ### Tokenization
 
 At design time, the creator of the model chooses a tokenization strategy, like vocabulary size, and the type of tokens to use. The tokenizer needs to be trained on a specific dataset to learn the vocabulary and how to tokenize the text.
@@ -164,6 +138,12 @@ There are for main types of tokenization strategies:
 - **Special tokens**: Tokens that are used to indicate the start and end of a sequence, padding, or other special purposes. E.g. `<s>` for start of sequence, `</s>` for end of sequence, `<pad>` for padding.
 - **Capitalization**: Whether the tokenizer is case-sensitive or not. Case sensitive tokenizers treat "Hello" and "hello" as different tokens.
 
+### Types of Embeddings
+- **Word Embeddings**: Represent individual words in a continuous vector space. Examples include Word2Vec, GloVe, and FastText.
+- **Sentence Embeddings**: Represent entire sentences or phrases in a continuous vector space.
+- **Document Embeddings**: Represent entire documents in a continuous vector space. e.g. Bag of Words
+- **Token Embeddings**: Represent individual tokens (words, subwords, or characters) in a continuous vector space. e.g. BERT, GPT-2, and RoBERTa
+
 ### Token Embeddings
 
 Token embeddings are the numerical representation of tokens in a continuous vector space. They are initialized randomly and are learned during the training process. The embeddings are typically of a fixed size, e.g. 768 or 1024 dimensions.
@@ -178,8 +158,29 @@ Text embeddings are single vectors that represent text longer than a single toke
 
 A common approach to generate text embeddings is to use the mean or sum of the token embeddings of the tokens in the text. This approach is simple and effective, but it does not take into account the order of the tokens.
 
-**WordToVec**: A popular method for generating text embeddings is Word2Vec, which generates word embeddings based on the context of the words in the text. [Word2Vec Explained](https://jalammar.github.io/illustrated-word2vec/)
 
+### Dense Vector Embeddings word2vec
+
+A popular method for generating text embeddings is Word2Vec, which generates word embeddings based on the context of the words in the text. [Word2Vec Explained](https://jalammar.github.io/illustrated-word2vec/)
+
+
+- Word2vec learns semantic representations of words by training on vast amounts of text data. E.g. Wikipedia
+- It uses a neural network to learn the relationships between words in a corpus.
+- word2vec generates word embeddings by looking at which other words appear next to in a sentence and learns the relationship between words.
+
+![alt text](images/llm/neural-network-word-embedding.png)
+
+For instance, the word “baby” might score high on the properties “newborn” and “human” while the word “apple” scores low on these properties.
+
+![alt text](images/llm/values-of-embeddings.png)
+
+In practice, these properties are often obscure and do not relate to single entity or humanly identifiable concepts.
+
+Embeddings are fixed-length vectors that represent words in a continuous vector space. The distance between two word embeddings indicates the semantic similarity between the words. For example, the word embeddings for "king" and "queen" are closer together than the word embeddings for "king" and "carrot".
+
+Embeddings of words that are similar will be close to each other in the vector space:
+
+![alt text](images/llm/embeddings-vectore-space.png)
 
 ## Transformer Model
 
@@ -204,23 +205,23 @@ Other approach is to sample the next token from the probability distribution gen
 ### Parallel Token Processing and Context Size
 The context length is the maximum number of tokens that the model can process at once. It is determined by the architecture of the model and the size of the input sequence. The context length is typically limited to a few thousand tokens, depending on the model.
 
-Each of the tokens in the input sequence is processed in parallel by the transformer model. For text generation, only the output of the last token is used to generate the next token. The other tokens are only used to in the attention mechanism to provide context for the next token.
+Each of the tokens in the input sequence is processed in parallel by the transformer model. For text generation (decoder only), only the output of the last token is used to generate the next token. The other tokens are only used in the attention mechanism to provide context for the next token.
 
 ![alt text](images/llm/transformer_parallel_processing.png)
 
 ### Transformer Blocks
 
-A LLM has a stack of transformer blocks, from 6 to over 100 in large models. Each transformer block consists of two main components:
+An LLM has a stack of transformer blocks, from 6 to over 100 in large models. Each transformer block consists of two main components:
 
 1. **Self-attention**: This component allows the model to focus on different parts of the input sequence when processing each token. It computes attention scores for each token in the sequence, allowing the model to weigh the importance of each token relative to others.
 
-2. **Feed-forward neural network**: This component processes the output of the self-attention mechanism and generates the final output for each token. It consists of two linear layers with a non-linear activation function in between.
+2. **Feed-forward neural network**: This component processes the output of the self-attention mechanism and generates the final output for each token. It consists of two linear layers with a non-linear activation function (e.g., ReLU) in between.
 
 ![alt text](images/llm/transformer_block.png)
 
-The different layers are identical, but do not share weights. Each layer has its own set of parameters that are learned during the training process.
+Each transformer block layer is identical in structure but has its own set of weights, which are not shared across layers. Each layer has its own set of parameters that are learned during the training process.
 
-Each token flows in parallel through the transformer blocks. There are dependencies between these paths in the self-attention layer, but not in the feed-forward layer.
+Each token flows in parallel through the transformer blocks, meaning that all tokens are processed simultaneously within a single layer. There are dependencies between these paths in the self-attention layer, but not in the feed-forward layer.
 
 Only the first layer needs embeddings, the other layers only need the output of the previous layer. The self-attention mechanism is applied to the output of the previous layer to compute the attention scores.
 
